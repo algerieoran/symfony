@@ -1,0 +1,439 @@
+
+---------------
+SYMFONY
+----------
+
+INTRO : Qu'est-ce que Symfony ?
+
+ETAPE 1 : Installation du framework Symfony 3.4
+ETAPE 2 : Les Bundles
+ETAPE 3 : Les routes et les controllers
+ETAPE 4 : Créer notre Bundle Boutique
+ETAPE 5 : Twig
+ETAPE 6 : Les entités
+ETAPE 7 : DOCTRINE
+ETAPE 8 : Les formulaires
+ETAPE 9 : Validation des données
+ETAPE 10 : Sécurité et Utilisateur
+ETAPE 11 : Les services
+ETAPE 12 : Les événements
+ETAPE 13 : Les Assets
+ETAPE 14 : Symfony 4
+
+--------------------
+
+INTRO : Qu'est-ce que Symfony ?
+
+1/ Avantages à utiliser un framework du marché ?
+    A/ Une organisation Optimisée
+    B/ Fonctionnalités Communes
+    C/ Sevices disponibles (routing, sécurité, cache, Connexion Sécurisée à la BDD...)
+
+2/ Choix du framework !
+    A/ Construire son propre framework
+    B/ Les framework FullStack (symfony, laravel, zend...)
+        -Les minis framework (Silex, Slim, Fat-Free, Lumen)
+
+3/ Symfony :
+    A/ Framework développé par Sensiolab
+    B/ Différentes versions :
+        - SF3.4 : SF2.8 avec retarit de certaines fonctionnalités dépréciées
+        - SF4 : SF3.4 avec retarit de certaines fonctionnalités dépréciées, et une nouvelle manière de dev', + de liberté dans l'architecture :
+            --> PHP7.1
+            --> Flex
+            --> Bundle-less (bundle = module (organisation de dossiers et fichiers))
+
+--------------------------------------------------
+ETAPE 1 : Installation du framework Symfony 3.4
+--------------------------------------------------
+
+Sommaire :
+1/ installer Composer
+2/ Symfony installer
+3/ Installer une application vierge symfony
+4/ Arborescence et nature des Dossiers/fichiers
+5/ Lancement de notre application
+6/ Fonctionnement des URL
+
+---------------------------------------------------
+1/ installer Composer
+Composer est un utils de gestion de dépendance. Il permet d'installer les services (composants/dépendances) et les mettres à jours.
+Il est relié à un fichier composer.json.
+
+
+2/ Installer Symfony Installer :
+
+<cmd>
+php -r "file_put_contents('symfony', file_get_contents('https://symfony.com/installer'));"
+
+
+3/ Installer Une application :
+
+    A. se diriger vers le Dossiers<cmd>
+    cd c://Xampp/htdocs/Symphony
+
+    B. dans le dossier cible (clic droit + Maj > Ouvrir invite de commande)
+
+    Avec Symfony Installer :
+        <cmd> 
+        symfony new projet nom_du_projet
+    Avec Composer :
+         <cmd> 
+         composer create-project symfony/framework-standard-edition my_project_name
+
+
+
+4/ Arborescence et nature des Dossiers/fichiers    
+
+    -Le répertoire app/ :
+    La configuration de notre application    
+    
+    -Le répertoire bin/
+    Les exécutables de l'app    
+    
+    -Le répertoire src/
+    Contient tout le code de notre application. C'est ici que l'on viendra coder notre application.
+
+    - Le répertoire tests/
+    Concerne tous les tests de notre application    
+   
+   - Le répertoire var/ :
+    Concerne tout ce que va écrire symfony durant le processus (cache, les logs)    
+   
+   - Le répertoire vendor/
+    Contient tout le code source (le coeur) d'un projet symfony
+
+    -Le repertoire web/
+    Contient tous les fichiers destinés aux utililsateurs (img, js, css...)
+    Le controller frontal (index.php >> app_dev.php)
+
+    - Le fichier composer.json/
+    Contient les indépendance. Ce fichier permet de mettre à jours les applications et les dépendances. Pour le moment constatons simplement qu'il est bien rempli...
+
+
+
+5/ Lancement de notre application
+
+A ce stade il y a deux mainères de lancer l'application :
+
+    1/localhost/Symfony/my_project_name/web/app.php
+
+    2/<cmd>
+    php bin/console servaur server.run
+    localhost:8000
+    (permet d'éviter le virtual host)
+
+Les fichiers qui sont lancés sont les suivants :
+    web/app.php
+    web/app_dev.php (en mode développeur)
+
+    test :
+    localhost/Symfony/my_project_name/web/app.php/page_inconnu
+    localhost/Symfony/my_project_name/web/app_dev.php/page_inconnu
+
+    En prod(app.php) on ne voit pas les erreurs, et pour cause, puisque que cette version est destinée aux internautes. Mais on peut voir les erreurs dans var/logs/prod.logs
+
+
+ 6/ Fonctionnement des URL
+
+ Nos  controllers frontaux (app.php et app_dev.php) recoivent la requête (URL) et demande au Kernel, de charger un contrller et une fonction. Pour chaque fonction on définira une route pour le Kernel s'y retouve.
+
+ voir le fichier src/AppBundle/Contriller/DefaultController.php  
+
+ ---------------------------------
+ ETAPE 2 : Les Bundles
+ ----------------------
+ Sommaire :
+
+ 1/Le concept des Bundles
+ 2/ Création d'un bundle
+ ----------------
+
+
+ 1/Le concept des Bundles :
+
+    Briques de notre application
+
+    ProduitBindle :
+    -> Crtl/ route : boutique, categorie, produit etc...
+    MembreBundle :
+    -> Crtl/ route : Inscription, connexion, profil etc...
+    BaseBundle :
+    -> Crtl/ route : home, mention_legales, contact, qui sommes nous
+
+    /!\ mais avec les temps, on estime plus propre de faire :
+    AppBundles : Tous  les controllers / toutes les routes.
+
+    Un bundle se compose de : $
+        -controller/ :
+        Contient les informations sur votre bundle (config)
+
+        - DependencyInjection/ :
+       Contient les informations sur votre bundle (config)        
+       
+       - Entity/ :
+       Contient les classes (classe modèle, (POPO))        
+       
+       - Form/ :
+       Contient les formulaires (classe qui permettent de construire nos formulaires)        
+       
+       - Ressources/ :
+           - Config/
+           Config du bundle (route par exemple en YAML(.yml)...)
+
+            -public/
+            Contient les fichiers publiques de votre bundle (css, js, images...)
+
+            -view/
+            Vues, template de votre bundle.
+        
+
+
+ 2/ Création d'un bundle :
+
+    <cmd>
+    php bin/console generate:bundle
+
+    -On choisi un nom pour le bundle POLES\TestBundle
+    -On nome le bundle : POLES\TestBundle
+    -On choisi la destination des dossiers (défault : src/)
+    -On choisi le forma des config (annotation)
+
+    /!\ On enregiste notre namespace dans composer.json > PSR-4
+    /!\ On met à jour l'application avec <cmd> composer update
+
+    On lance la home de notre site et nous devrions avoir "hello word"
+
+    /!\ Attention : Dans cette version, le chemin des vues (dans la fonction render) ne s'écrivent pas de la même manière.
+        - 'POLES:TestBundle:Default:index.html.twig'
+        - '@POLESTest/Default/index.html.twig' 
+
+
+----------------------------------------
+
+--------------------------------------
+Sommaire :
+1/ On créer des routes
+2/ L'objet Request
+3/ L'objet Response
+4/ Redirection
+-------------------
+
+1/ Les routes
+
+-> route '/' (simple rendu de vue)
+-> route '/binjour' (sans parametres et san vue)
+-> route '/bonjour2'(sans parametre avec une response)
+-> route '/hello/{prenom}' (avec parametre, avec response)
+-> route '/hola/{prenom}' (avec parametre et vue en twig)
+
+2/L'objet request 
+
+-Dans une requete HTTP, il y a toujours une requête et une response
+- L'objet request va stocker toutes les infos de la requete HTTP
+USE Symfony \Component\HttpFoundation\Request;
+
+$request -> query -> get ('param_en_get');
+$request -> request -> get ('param_en_post');
+$request -> cookies -> get ('param_en_cookie');
+$request -> server -> get ('param_du_server');
+$request -> attributes -> get ('param_d-url');
+
+-> route'/hi/{prenom}'  (avec parametre URL, parametre GET et vue en Twig)
+
+Si $request trouve un parametre qui n'existe pas, il retourne une réponse vide.
+
+Pour vérifier si on récupère du post :
+if($request -> isMethod('POST'))
+
+Pour récupérer/affécter des infos dans une session :
+$session = $request -> getSession();
+$session -> get('id_membre);
+$session -> get('id_membre, 12);
+
+Méthode 2 :
+$requst -> session -> get('id_membre);
+$requst -> session -> get('id_membre, 12);
+
+
+3/ L"objet response
+<code>
+USE Symfony\Component\HttpFoundation\Response;
+
+-> route '/bonjour2' (Test d'une response)
+
+Toute action va retourner une response. Déja faire un render(), c'est utiliser l'objet Response
+
+$this -> render()
+$this -> getTemplating() -> renderResponse()
+
+4/ Redirection
+
+<code>
+USE Symfony\Component\HttpFoundation\RedirectResponse;
+
+-> route '/redirect' (redirige vers une autre route)
+- A ce stade nous devons utiliser un nom pour nos routes 
+exemple : @Route ("/bonjour2", name="bonjour2")
+
+5/message 
+
+La variable app (index4.html.twig) est une varioable globale, qui contient des infos générales sur l'app.
+(ex : app.session; app.user)
+
+
+
+---------------------------------
+ETAPE 4 : Création de notre boutique
+------------------------------------
+1/ Créer un nouveau projet Symfony (Boutique3)
+2/ Créer et enregistrer le Bundle BoutiqueBundle
+3/ update de l'app
+4/ Réorganisation du Bundle
+5/ Création des premières routes
+--------------------------------------
+
+
+1/ Créer un nouveau projet symfony boutique3)
+2/ Créer et enregistrer le Bundle BoutiqueBundle
+
+    -> <cmd>
+        php bin/console generate:bundle
+            -> N
+            -> BoutiqueBundle
+            -> src/
+            -> annotation    
+            
+            
+        composer.json
+        <code>
+        "PSR-4": {
+
+            "AppBundle\\": "src/AppBundle",
+            "BoutiqueBundle": "src/BoutiqueBundle"
+
+        },
+        
+3/ update de l'app
+    -> <cmd>
+    composer update
+
+
+4/ Réorganisation du Bundle
+    -> renommer DefaultController en ProduitController (fichier, classe...)
+    -> Dans les vues, on a ajouter les dossier Produit, Membre, Commande
+
+5/ Création des premières routes
+    @Route("/") : Accueil de notre site -> index.html.twig
+    @Route("/categorie/{categorie") : Page de categorie -> index.html.twig
+    @Route("/Produit/{id}") : Page de produit-> produit.html.twig
+
+A ce stade nous avons des erreurs car les vues n'existe pas. Nous allons les créer au chapitre suivant.
+
+L'échange avec la BDD, se faisant avec Doctrine (outil vaste), on simule de la data avec des array $produits et $categories.
+
+----------------
+ETAPE 5
+---------------
+Sommaire :
+1/ Créer un layout
+2/ L'héritage Twig
+3/ Modification de nos vues
+4/ Documentation de Twig
+---------------
+
+1/ Créer un layout
+
+   -> Un layout est la structure de page prête à recevoir des vues (bloc d'html), en déclarant des zones (fenêtre exemple {% block content %}).
+   -> Récupérer e layout.html de mini-framework et on le nomme layout.html.twig et on le place dans boutique3/app/Ressources/view
+   -> On retire la variable $content pour la remplacer par un block content
+   
+2/ L'héritage twig
+   -> Au même titre que l'héritage en PHP, l'héritage TWIG permet de dire à un fichier qu'il dépend d'un parent.
+   -> Pour TWIG, en réalité l'héritage est matérialisé par le fait que l'on crée des blocks dans le parents (fenêtres ouvertes), dans lesquels les vues peuvent afficher du contenu HTML. 
+   
+  /!\ Attention : Si une vue hérite d'un template, on ne peut insérer de code que dans les blocks prévus à cet effet.
+      
+3/ Modification de nos vues
+   -> Dans un premier temps on récupère boutique.html de notre mini-framework et on fait :
+
+       1) On le renomme en index.html.twig (parce que indexAction rend ce fichier) 
+
+       2) On lui dit d'hériter de notre layout
+       <code>
+       {% extends 'layout.html.twig' %}
+
+       3) On insère le contenu dans le block content 
+
+       4) On modifie les boucles
+       <code>
+       <?php foreach($a as $x) :?>
+       {% for x in a %}  
+
+       5) On modifie les variables
+       <code>
+       <?= $x['y'] ?>
+       ou <?= $x -> getY() ?>
+
+       deviennent :
+       {{ x.y }}
+
+
+4/ Documentation de Twig
+https://twig.symfony.com/doc/2.x/
+
+
+Exercice :Créer la route Categorie, qui affiche les produits d'une categorie
+
+   -> Récupérer les arrays créés dans Accueil
+   -> Vous passez toutes les infos en paramètres de render
+   -> Vous passez la vue à affiche dans render
+   -> test /categorie/pull (affiche tous les produits)
+   
+   
+Créer la route produit qui affiche la page d'un produit
+
+   -> Créer un array produit dans la fonction produitAction()
+   -> Vous passez toutes les infos en paramètres de render
+   -> Vous pasez la vue produit.html.twig à render
+   -> Vous créez le fichier produit.html.twig (héritage, boucle, et variables)
+
+
+----------------------------------------
+ETAPE 13 : Les Assets
+---------------------------------------
+1/ Modifier le composer.json
+2/ Mise à jour des composants
+3/ modifications des vues (assets et path) + Dissier photo
+-----------------
+
+Le composant Asset de symfony, nous permet de gérer les ressources (images, photos, js, css, liens etc...), et de les appeler de maniere absolue
+
+1/ Modifier le composer.json
+    <code>
+    "require": {
+        "symfony/asset":"^3.4"
+    },
+
+2/ Mise à jour des composants
+    <cmd>
+    compose update
+    --> Le composer met à jour l'app en fonction du fichier composer.json
+
+    Methode 2 :
+    <cmd>
+    
+
+
+
+
+
+
+
+
+
+
+ -----------------------------------------------------------------------------------   
+Créer un nouveau projet symfony boutique3
+Lancer le projetCréer un Bundle BoutiqueBundle (sans namespace) à la question :N
+--------------------------------------------------------------------------------

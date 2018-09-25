@@ -1,0 +1,6 @@
+
+Les messages :
+{% for message in app.session.flashbag.get('test') %}
+<p>Message Flash : {{ message }}</p>
+
+{% endfor %}
