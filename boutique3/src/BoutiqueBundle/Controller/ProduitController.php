@@ -4,6 +4,7 @@ namespace BoutiqueBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use BoutiqueBundle\Entity\Produit;
 
 class ProduitController extends Controller
 {
@@ -12,45 +13,24 @@ class ProduitController extends Controller
      */
     public function indexAction()
     {
+    // methode numéro 1 pour récupérer un repository :
+        //$repository = $this -> getDoctrine() -> getRepository('BoutiqueBundle\Entity\Produit'); 
+        // OU :
+        $repository = $this -> getDoctrine() -> getRepository(Produit::class);
 
-        $produits = array (
-            0 => array(
-                'id_produit'   => 1,
-                'reference'    =>  '12354',
-                'categorie'    =>  'pull',
-                'description'  => 'super pull pou l\'hiver',
-                'titre'        =>  'Pull noir',  
-                'couleur'      =>'noir',
-                'taille'       =>'m',
-                'public'       =>'f',
-                'photo'        =>'pull_femme1.jpg',
-                'prix'         =>'15.00',
-                'stock'        =>'150'
-            ),
-            1 => array(
-               'id_produit'   => 2,
-               'reference'    =>  'DFF854',
-               'categorie'    =>  'Bottes',
-               'description'  => 'Botte au top',
-               'titre'        =>  'Botte de cowboy',  
-               'couleur'      =>'blanc',
-               'taille'       =>'m',
-               'public'       =>'f',
-               'photo'        =>'p01_pull1.jpg',
-               'prix'         =>'50.00',
-               'stock'        =>'250'
-            )
-        );
 
-        $categories = array (
-            0 => array (
-               'categorie'    => 'pull'         
-           ),
-           
-           1 => array (      
-               'categorie'    => 'bottes'
-           )
-        );
+        $produits = $repository -> findAll(); 
+
+
+        // echo '<pre>';
+        //     var_dump ($produits);
+        // echo '</pre>';
+
+        //SELECT DISTINCT categorie FROM produit :
+        $em = $this -> getDoctrine() -> getManager();
+        $query = $em -> CreateQuery("SELECT DISTINCT p.categorie FROM BoutiqueBundle\Entity\Produit p");
+        $categories = $query -> getResult();
+
 
         $params = array(
             'produits'  => $produits,
@@ -66,51 +46,21 @@ class ProduitController extends Controller
      * @Route("/categorie/{categorie}", name="categorie")
      */
 
-     public function categorieAction () 
-     {
-         $produits = array (
-             0 => array(
-                 'id_produit'   => 1,
-                 'reference'    =>  '12354',
-                 'categorie'    =>  'pull',
-                 'description'  => 'super pull pou l\'hiver',
-                 'titre'        =>  'Pull noir',  
-                 'couleur'      =>'noir',
-                 'taille'       =>'m',
-                 'public'       =>'f',
-                 'photo'        =>'pull_femme1.jpg',
-                 'prix'         =>'15.00',
-                 'stock'        =>'150'
-             ),
-             1 => array(
-                'id_produit'   => 2,
-                'reference'    =>  'DFF854',
-                'categorie'    =>  'Bottes',
-                'description'  => 'Botte au top',
-                'titre'        =>  'Botte de cowboy',  
-                'couleur'      =>'blanc',
-                'taille'       =>'m',
-                'public'       =>'f',
-                'photo'        =>'p01_pull1.jpg',
-                'prix'         =>'50.00',
-                'stock'        =>'250'
-             )
-         );
+     public function categorieAction ($categorie) {
 
-         $categories = array (
-             0 => array (
-                'categorie'    => 'pull'         
-            ),
-            
-            1 => array (      
-                'categorie'    => 'bottes'
-            )
-         );
+        $repository = $this -> getDoctrine() -> getRepository(Produit::class);
+        $produits = $repository -> findBy(['categorie' => $categorie]); 
+
+        
+         //SELECT DISTINCT categorie FROM produit :
+         $em = $this -> getDoctrine() -> getManager();
+         $query = $em -> CreateQuery("SELECT DISTINCT p.categorie FROM BoutiqueBundle\Entity\Produit p");
+         $categories = $query -> getResult();
 
          $params = array(
              'produits'  => $produits,
              'categories'  => $categories,
-             'title'  => 'Accueil'
+             'title'  => 'Page catégorie ' . $categorie
          );
 
          return $this -> render('@Boutique/Produit/index.html.twig', $params); 
@@ -121,67 +71,24 @@ class ProduitController extends Controller
       * @Route("/produit/{id}", name="produit")
       */
 
-      public function produitAction() 
+      public function produitAction($id) {
 
-      {
-            $produit = array (
-                'id_produit'   => 1,
-                'reference'    =>  '12354',
-                'categorie'    =>  'pull',
-                'description'  => 'super pull pou l\'hiver',
-                'titre'        =>  'Pull noir',  
-                'couleur'      =>'noir',
-                'taille'       =>'m',
-                'public'       =>'f',
-                'photo'        =>'pull_femme1.jpg',
-                'prix'         =>'15.00',
-                'stock'        =>'150'
-            );
-   
-            $params = array(
-                'produit'  => $produit,
-                'title'  => 'produit : ' .$produit['titre']
-            );    
-   
+        // methode numéro 1 :
+        $repository = $this -> getDoctrine() -> getRepository(Produit::class);
+        $produit = $repository -> find($id); 
 
-         
+        //methode 2 :
+        // $em = $this -> getDoctrine() -> getManager();
+        // $produit =$em -> find(Produit::class, $id);
+
         
-
-          $suggestions = array (
-
-            0 => array(
-                'id_produit'   => 1,
-                'reference'    =>  '12354',
-                'categorie'    =>  'pull',
-                'description'  => 'super pull pou l\'hiver',
-                'titre'        =>  'Pull noir',  
-                'couleur'      =>'noir',
-                'taille'       =>'m',
-                'public'       =>'f',
-                'photo'        =>'p01_pull1.jpg',
-                'prix'         =>'15.00',
-                'stock'        =>'150'
-            ),
-    
-            1 => array(
-               'id_produit'   => 2,
-               'reference'    =>  'DFF854',
-               'categorie'    =>  'Bottes',
-               'description'  => 'Botte au top',
-               'titre'        =>  'Botte de cowboy',  
-               'couleur'      =>'blanc',
-               'taille'       =>'m',
-               'public'       =>'f',
-               'photo'        =>'2_robe.jpg',
-               'prix'         =>'50.00',
-               'stock'        =>'250'
-            )
-        );
+        // On récupère les suggestions :
+        $suggestions = $repository -> findBy(['categorie' => $produit -> getCategorie()]); 
     
         $params = array(
             'produit'  => $produit,
-            'suggestions'  => $suggestions,
-            'title'  => 'produit : ' .$produit['titre']
+            'title'  => 'produit : ' .$produit -> getTitre(),
+            'suggestions'  => $suggestions
         );
           
         return $this -> render('@Boutique/Produit/fiche_produit.html.twig', $params);

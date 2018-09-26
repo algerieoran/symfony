@@ -1,4 +1,4 @@
-
+﻿
 ---------------
 SYMFONY
 ----------
@@ -119,7 +119,7 @@ A ce stade il y a deux mainères de lancer l'application :
     1/localhost/Symfony/my_project_name/web/app.php
 
     2/<cmd>
-    php bin/console servaur server.run
+    php bin/console server:run
     localhost:8000
     (permet d'éviter le virtual host)
 
@@ -423,6 +423,123 @@ Le composant Asset de symfony, nous permet de gérer les ressources (images, pho
     Methode 2 :
     <cmd>
     
+---------------------
+---------------------
+
+ETAPE 6 : Les entités
+
+---------------------Sommaire :
+
+1/ Doctrine ORM et le concept des entités
+
+2/ Créer ses entités
+
+3/ Les annotations
+
+4/ Générer ses tables (dans la BDD)
+
+5/ Créer les entités avec la console (dans la console)
+
+
+--------------------
+1/Doctrine ORM et le concepte des entités
+
+D'une certaine manière nos entités correspondent à la partie Model du MVC.
+No ne va plus faire de SQL, et (normalement) ne plus me mettre le nez dans PHPMYADMIN.
+On va créer nos entités (nos POPO, classes, NOS PLANS DE fabrication ) des objets qui vont être  manipulés dans l'app.
+Doctrine ORM, grâce à des annotations, (ORM : Object Relation Mapping), va comprendre toutes les intéractions qu'il existe entre les objets. Et donc va prendre la main.
+Par exemple, nous ne ferons plus de requête INSERT, pour enregistrer une entrée, mais nous utiliserons des fonctions de Doctrine pour enregistrer des infos en BDD (on dit persister)
+
+
+2/ Créer ses entités
+    -On créer un dissier Entity dans notre Bundle
+    -> On créer un fichier par entité (Produit.php, Commande.php, Membre.php)
+    -> On crée les propriétés, les getters et les setters.    
+    
+    Dans un premier temps nous allons juste faire "a la main" l'entité Produit. (en fait on  récupère Produit.php du mini_framework et on change le namespace).
+
+
+
+
+3/Les annotations :
+Encore une fois les annotations vont être interprétées, et nous rendent un grand service. Elles permettent à notre ORM de comprendre les interactions entre les objets et la BDD, et les objets entre eux. C'est cela que l'on appelle le "maping".    
+
+<code>
+USE Doctrine\ORM\Mapping as ORM
+
+On précise que notre classes va etre mappée
+<code>
+/**
+*@ORM\Entity
+*/
+
+Pour chaque propriété on définie les infos :
+    <code>
+        /**
+        * @ORM\Column(name="id_produit", type="integer")
+        * @ORM\Id
+        * @ORM\GenerateValue (strategy="AUTO")
+        */
+
+    <code> (exemples)
+        /**
+        * @ORM\Column(name="reference", type="string", length="20", nullable=false)
+        * @ORM\Column(name="date", type="date")
+        *
+        */
+
+
+    Liens :
+    Basic Mapping :
+    https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html
+    Association Mapping :
+    https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html
+
+
+    4/ Genérer ses entités :
+        A/ Régler les paramètres de connexion à la BDD  
+            app/Config/parameters.yml
+
+        B/ Gébérer la BDD en ligne de commande
+            <cmd>
+                php bin/console doctrine:database:create
+
+        C/ Créer nos entité dans src/BoutiqueBundle/Entity
+        <cmd>
+        php bin/console doctrine:schema:update --dump-sql (la requête à exécuter)
+        php bin/console doctrine:schema:update --force (exécuter la requête)
+
+5/ Créer les entités via la console    
+    Méthode 1 : Je crée une entité en ligne de commande
+        <cmd>
+        php bin/console doctrine:generate:entity  
+
+        -> On suit les étapes.
+        -> cela nous génère notre Entity et notre Repository correspondant.
+        - On met à jour la BDD
+        <cmd>
+        php bin/console doctrine:schema:update --dump-sql (la requête à exécuter)
+        php bin/console doctrine:schema:update --force (exécuter la requête)
+
+   
+     Méthode 2 : Je génère mes entités grâce à la BDD
+
+   <cmd>
+php bin/console doctrine:mapping:import App\\Entity annotation --path=src/BoutiqueBunde/Entity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
