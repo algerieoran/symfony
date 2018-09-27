@@ -83,7 +83,24 @@ class ProduitController extends Controller
 
         
         // On récupère les suggestions :
-        $suggestions = $repository -> findBy(['categorie' => $produit -> getCategorie()]); 
+        // $suggestions = $repository -> findBy(['categorie' => $produit -> getCategorie()]); 
+
+        // On récupère les suggestions avec queryBuilder, une requête créé en PHP :
+        $em = $this -> getDoctrine() -> getManager();
+        $query = $em -> createQueryBuilder(); // Objet QueryBuilder
+
+        $query 
+            -> select ('p')
+            -> from (produit::class,'p')
+            -> where ('p.categorie= :categorie')
+            -> orderby ('p.prix', 'DESC')
+            -> setParameter ('categorie', $produit -> getCategorie());
+           
+        $suggestions = $query -> getQuery() -> getResult();
+
+        // Ce query builder nous créé une requête qui s'apparenterait à ceci :
+        // SELECT * FROM produit WHERE categorie = : categorie ORDER BY prix DESC 
+        // bindParam (':categorie', $produit -> getCategorie())
     
         $params = array(
             'produit'  => $produit,

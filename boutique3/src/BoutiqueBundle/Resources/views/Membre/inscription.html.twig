@@ -1,0 +1,41 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<h1> {{title}}</h1>
+
+{# <h3>"Bonjour je suis dans l'inscription"</h3>
+
+    <table border="1">
+
+        <th>Prenom</th>
+
+        <th>Pseudo</th>
+
+        <th>Nom</th>
+
+        <th>email</th>
+
+        {% for membre in membres %}
+
+                <tr>                
+                    <td>{{ membre.prenom }}</td>
+
+                    <td>{{ membre.pseudo }}</td>
+
+                    <td>{{ membre.nom }}</td>
+
+                    <td>{{ membre.email }}</td>            
+                </tr>
+
+        {% endfor %}
+
+    </table>
+    <hr> #}
+
+
+
+    
+    
+    {{ form(membreForm) }}
+
+{% endblock %}

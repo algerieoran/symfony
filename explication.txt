@@ -428,7 +428,8 @@ Le composant Asset de symfony, nous permet de gérer les ressources (images, pho
 
 ETAPE 6 : Les entités
 
----------------------Sommaire :
+---------------------
+Sommaire :
 
 1/ Doctrine ORM et le concept des entités
 
@@ -526,6 +527,172 @@ Pour chaque propriété on définie les infos :
 
    <cmd>
 php bin/console doctrine:mapping:import App\\Entity annotation --path=src/BoutiqueBunde/Entity
+
+
+
+6/ Requête INSERT/UPDATE
+
+-> INSERT :
+Pour insérer une nouvelle entrée, on instancie un objet de l'entité
+<code>
+$membre = new Membre;
+
+On définie les propriétés
+<code>
+$membre -> setPrenom('lePrenom');
+
+...
+
+On récupère le manager
+<code>
+$em = $this ->getDoctrine() -> getManager();
+
+On persiste, afin de préparer l'insertion, puis on flush pour rendre l'enregistrement effectif
+<code>
+$em -> persist($membre);
+$em -> flush();
+
+
+
+
+-> UPDATE :
+Pour modifier un membre= une entrée on récupere, on modifier les propriétés à modifier, on le persist et on le flush.
+$em = $this -> getDoctrine() -> getManager();
+$membre = $em -> find (Membre::class, $id);
+
+$membre -> setPrenom('nouveau_prenom);
+
+$em -> persist($membre);
+$em -> flush();
+
+
+c'est faire : MembreController, route membre/update/$id
+
+
+
+
+
+7/ Requete Delete 
+Doctrine manipule des objets liés à nos entités. Aussi pour supprimer une entrée on doit d'abord la récupérer.
+
+Ensuite la fonction remove() de notre EntityManager ($em), nous permet de préparer la suppression. le flush() la rend effective.
+
+cf route /membre/delete/{id} de MembreController
+
+
+8/ Create Query et Query Builder
+
+Doctrine nous permet de facilement manipuler des enregistrements dans la BDD grâce aux entités ('find, findBy, findOneBy, findAll, remove, delete).
+Cela dit, on peut etre ammené à vouloir des requêtes plus complexes....
+Doctrine nous fournit donc deux outils interessants :
+
+- Create Query  :  Nous permet d'écrire des requêtes en SQL (DQL). Voir la route "/" de ProduitController (requete DISTINCT)
+	
+	Lien : https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html
+	
+- Query Builder : Nous permet d'écrire des requêtes en PHP. Voir la route "produit/{id}" de ProduitController 
+
+	lien : https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/query-builder.html
+
+----------------------------
+ETAPE 8 : Les formulaires :
+----------------------------
+    Sommaire :
+    1/ Le fonctionnement des formulaires
+    2/ Création d'un formulaire (simple) pour l'Inscription
+    3/ Les classes Types
+    4/ Récupérer les données d'un formulaire
+    5/ Personaliser le formulaire avec Bootstrap
+    6/ Créer nos propre class Type hérité de AbstractType
+    7/ Update un enregistrement d'un formulaire 
+    8/ Champs file (photos des produits)
+------------------------------------
+
+1/ Le fonctionnement des formulaires
+
+-> les formulaires sont liés à nos entités (ajout de produit, modif produit, inscription, modif de profil...)
+-> chaque type de champ est géré par une classe (TextType, ChoiceType, SubmitType....)
+     Par exemple lorsque on va modifier un produit, on va envoyer au  formulaire un objet $produit, on dit qu'on hydrate le formulaire
+
+
+2/ Création d'un formulaire (simple) pour l'Inscription
+
+    -> route "/inscription" du MembreController
+
+    FormBuilder est "/inscription" de formulaire. il nous permet de paramétrer des formulaires.
+    <code>
+    $formBuilder = $this -> get (form.factory) -> createBuilder (FromType::class, $membre);
+    ou :
+    $formBuilder = $this -> ceateFormBuilder($membre);
+
+    !! On lie un objet $membre attendus dans le formulaire avec -add()
+    On ajoute tous les champs atendus dans le formulaire avec -add()
+    <code>
+    $formBuilder 
+        -> add('pseudo', TextType::class)
+        -> add('codePostal', IntegerType::class)
+        ->etc....
+
+    /!\ Attention à bien "use" toutes les TypeClass utilisées  dans le formulaire
+
+    on créer le formulaire
+    <cmd>   
+    $form = $formBuilder -> getForm()
+
+    on récupère la vue du formulaire qui sera ensuite transmise à la vue, via $param_du_server<code>
+    $formView = array (
+    'membreForm' => $formView
+    );
+
+    Dans la vue on affiche le formulaire en twig
+    <code>
+    {{ form(membreForm) }}
+
+
+    3/ Les classes Type
+
+    https://symfony.com/doc/current/reference/forms/types.html
+
+
+    4/ Récupérer les données d'un formulaire
+
+        A/ On récupère les données du formulaire en fessant 
+        <code>
+        $form -> handleRequest($request);
+
+        A partir de là, notre objet $membre qui était lié au formulaire, contient les données entrées dans le formulaire
+
+        B/ On vérifie la validité du formulaire
+        <code> 
+        if($form -> isSubmitted() && $form -> isValid()) {
+
+        } 
+
+        \!/ On verra plus tard, les options de validité
+
+        C/ On enregistre les données saisie
+        $em = $this -> getDoctrine( -> getManager();
+        $em -> persist($membre); // $membre étant un objet lié au formulaire
+        $em -> flush();
+
+    5/ Personaliser le formulaire avec Bootstrap
+
+        Methode 1 :
+        app/config/config.yml
+        <code>
+        twig
+            form_themes:
+                - 'bootstrap_4_layout.html.twig'
+
+
+    6/ Créer nos propres class Type hérité de AbstractType
+    7/ Update un enregistrement d'un formulaire 
+    8/ Champs file (photos des produits)
+
+
+
+
+
 
 
 
