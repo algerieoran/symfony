@@ -4,7 +4,7 @@ SYMFONY :
 ---------
 
 INTRO : Qu'est-ce que Symfony ? 
-ETAPE 1 : Installation de du framework Symfony 3.4
+ETAPE 1 : Installation du framework Symfony 3.4
 ETAPE 2 : Les Bundles
 ETAPE 3 : Les routes et les controllers
 ETAPE 4 : Créer notre Bundle Boutique
@@ -26,7 +26,7 @@ INTRO : Qu'est-ce que Symfony ?
 1/ Avantages à utiliser un Framework du marché ? 
 	A/ Une organisation Optimisée
 	B/ Fonctionnalités communes
-	C/ Services diponibles (routing, sécurité, cache, Connexion sécurisée à la BDD...)
+	C/ Services disponibles (routing, sécurité, cache, Connexion sécurisée à la BDD...)
 	
 2/ Choix du framework ! 
 	A/ Construire son propre Framework
@@ -58,7 +58,7 @@ Sommaire :
 Composer est un outils de gestion de dépendance. Il permet d'installer les services (composants/dépendances) et de les mettre à jours. 
 Il est relié à un fichier composer.json. 
 
-2/ Installer Symfony Installer
+2/ Installer Symfony 
 
 <cmd>
 php -r "file_put_contents('symfony', file_get_contents('https://symfony.com/installer'));"
@@ -70,7 +70,7 @@ php -r "file_put_contents('symfony', file_get_contents('https://symfony.com/inst
 	<cmd>
 	cd c://Xampp/htdocs/Symfony
 	
-	B. dans le dossier cicble (clic droit + Maj > Ouvrir invite de commande)
+	B. dans le dossier ciblé (clic droit + Maj > Ouvrir invite de commande)
 
 	
 	|Avec Symfony Installer : 
@@ -96,7 +96,7 @@ php -r "file_put_contents('symfony', file_get_contents('https://symfony.com/inst
 	Concerne tous les test de notre application. 
 	
 	- Le repertoire var/ :
-	Concerne tout ce que va écfrire symfony durant le processus (cache, les logs)
+	Concerne tout ce que va écrire symfony durant le processus (cache, les logs)
 	
 	- Le repertoire vendor/ : 
 	Contient tout le code source (le coeur) d'un projet symfony. 
@@ -152,7 +152,7 @@ Sommaire :
 	Briques de notre application
 	
 	ProduitBundle :  
-		-> Crtl / route : boutique, categorie, produit etc...
+		-> Ctrl / route : boutique, categorie, produit etc...
 	MembreBundle : 
 		-> Ctrl / route : Inscription, connexion, profil etc...
 	BaseBundle : 
@@ -174,7 +174,7 @@ Sommaire :
 		Contient les classes (classe modèle, (POPO))
 		
 		- Form/ :
-		Contient les formulaires (classes qui permettent de contruire nos formulaires)
+		Contient les formulaires (classes qui permettent de construire nos formulaires)
 		
 		- Ressources/
 			- config/
