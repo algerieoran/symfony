@@ -684,8 +684,33 @@ ETAPE 8 : Les formulaires :
             form_themes:
                 - 'bootstrap_4_layout.html.twig'
 
+        Méthode 2 :
+        Mettre les formulaires directement dans la vue.
+        CF inscription.html.twig, où nous avons utiliser les options de twig pour générer un formulaire plus personnalisé :
+            -> Choix de l'emplacement de l'affichage des erreurs
+            -> ajout d'attributs dans les champs (class, id, ng-model...)
+
 
     6/ Créer nos propres class Type hérité de AbstractType
+
+        -Contexte : Actuellement pour ajouter un formulaire à une route, on récupère un formBuilder, et on configure champs...
+        -> problème : la route add_produit, et update_produit on besoin de créer le même formulaire produit...
+        -> solution : on va créer une classe dont le métier est de paramètre ce formulaire produit.
+        -> Résultat, il suffira de faire appel à cette classe pour générer un formulaire produit.
+
+        /!\ Gain de temps et meuilleur factorisation du code.
+
+    - Comme souvent, il existe une ligne de commande pour le faire presque intégralement
+
+        <cmd>
+        php bin/console generate:doctrine:form BoutiqueBundle:Produit  
+        php bin/console generate:doctrine:form BoutiqueBundle:Membre  
+        php bin/console generate:doctrine:form BoutiqueBundle:Commande
+
+        ----> Cela a créer dans le dossier src/BoutiqueBundle/Form/ProduitType.php, CommandeType.php et MembreType.php  
+
+
+
     7/ Update un enregistrement d'un formulaire 
     8/ Champs file (photos des produits)
 

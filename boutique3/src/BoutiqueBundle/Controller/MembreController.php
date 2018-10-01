@@ -27,32 +27,7 @@ class MembreController extends Controller
     {
         $membre = new Membre;
 
-        $formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $membre);
-        //$FormBuilder = $this -> createFormBuilder($membre); // pour créer un formulaire simple
-
-        $formBuilder
-            -> add('pseudo', TextType::class)
-            -> add('prenom', TextType::class)
-            -> add('mdp', PasswordType::class)
-            -> add('nom', TextType::class)
-            -> add('email', EmailType::class)
-            -> add('civilite', ChoiceType::class, array(
-
-                'choices' => array(
-                        'Homme' => 'm',
-                        'Femme' => 'f'
-                    )
-                ))
-
-            -> add('ville', TextType::class)
-            -> add('codePostal', IntegerType::class)
-            -> add('adresse', TextType::class)
-            //-> add('statut', IntegerType::class)
-            -> add('inscription', SubmitType::class);
-            
-
-        // Je récupère le formulaire :
-        $form = $formBuilder -> getForm();
+        $form =$this -> createForm(MembreType::class, $membre);
 
         // Je génère le formulaire (HTML- la partie visuelle)
         $formView = $form -> createView();

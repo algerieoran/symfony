@@ -1,0 +1,44 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+
+<h1{{ title }}></h1>
+
+<table border="1" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id du produit</th>
+            <th>photo</th>
+            <th>Titre</th>
+            <th>Categorie</th>
+            <th>Reference</th>
+            <th>Taille</th>
+            <th>Prix</th>
+            <th>couleur</th>
+            <th>stock</th>
+            <th colspan="2">Actions</th>
+            
+        </tr>
+    </thead>
+    </tbody>
+        {% for pdt in produits %}
+        <tr>
+            <th>{{ pdt.id_produit }}</th>
+            <th><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}"</th> 
+            <th>{{ pdt.Titre }}</th>
+            <th>{{ pdt.categorie }}</th>
+            <th>{{ pdt.reference }}</th>
+            <th>{{ pdt.taille }}</th>
+            <th>{{ pdt.prix }}</th>
+            <th>{{ pdt.couleur }}</th>
+            <th>{{ pdt.stock }}</th>
+            <th><a href="{{ path('update_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-edit"></i></a></th>
+            <th><a href="{{ path('delete_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-dash-alt"></i></a></th>
+          
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+    
+{% endblock %}

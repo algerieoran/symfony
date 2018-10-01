@@ -1,41 +1,33 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<h1> {{title}}</h1>
 
-{# <h3>"Bonjour je suis dans l'inscription"</h3>
+    <h1> {{title}}</h1>
+    {# Methode 1 : {{ form(membreForm) }}#}
+    {# Methode 2 : On va générer nous-même le formulaire #}
 
-    <table border="1">
-
-        <th>Prenom</th>
-
-        <th>Pseudo</th>
-
-        <th>Nom</th>
-
-        <th>email</th>
-
-        {% for membre in membres %}
-
-                <tr>                
-                    <td>{{ membre.prenom }}</td>
-
-                    <td>{{ membre.pseudo }}</td>
-
-                    <td>{{ membre.nom }}</td>
-
-                    <td>{{ membre.email }}</td>            
-                </tr>
-
-        {% endfor %}
-
-    </table>
-    <hr> #}
+    {{ form_start(membreForm) }}
 
 
+        {# Si on souhaite afficher toutes les erreurs : {{ form_erreurs(membreForm) }} #}
 
-    
-    
-    {{ form(membreForm) }}
+        <div class="form-group">
+            {# ceci permet d'afficher le champs, le label et les erreurs {{ form_row(membreForm.pseudo) }} #}
+        </div>
+
+
+        <div class="form-group">
+            <label>{{ form_label(membreForm.pseudo) }}</label>
+            {{ form_widget(membreForm.pseudo, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
+            {% if(form_errors(membreForm.pseudo)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.pseudo) }}</span>
+            {% endif %}
+        </div>
+
+
+    {{ form_end(membreForm) }}
+    {# Ceci permet de générer des jeton CSRF et gère la sécurité #}
+
+
 
 {% endblock %}
