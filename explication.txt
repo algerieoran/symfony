@@ -328,9 +328,9 @@ ETAPE 4 : Création de notre boutique
     @Route("/categorie/{categorie") : Page de categorie -> index.html.twig
     @Route("/Produit/{id}") : Page de produit-> produit.html.twig
 
-A ce stade nous avons des erreurs car les vues n'existe pas. Nous allons les créer au chapitre suivant.
+    A ce stade nous avons des erreurs car les vues n'existe pas. Nous allons les créer au chapitre suivant.
 
-L'échange avec la BDD, se faisant avec Doctrine (outil vaste), on simule de la data avec des array $produits et $categories.
+    L'échange avec la BDD, se faisant avec Doctrine (outil vaste), on simule de la data avec des array $produits et $categories.
 
 ----------------
 ETAPE 5
@@ -380,23 +380,23 @@ Sommaire :
 
 
 4/ Documentation de Twig
-https://twig.symfony.com/doc/2.x/
+    https://twig.symfony.com/doc/2.x/
 
 
-Exercice :Créer la route Categorie, qui affiche les produits d'une categorie
+    Exercice :Créer la route Categorie, qui affiche les produits d'une categorie
 
-   -> Récupérer les arrays créés dans Accueil
-   -> Vous passez toutes les infos en paramètres de render
-   -> Vous passez la vue à affiche dans render
-   -> test /categorie/pull (affiche tous les produits)
-   
-   
-Créer la route produit qui affiche la page d'un produit
+    -> Récupérer les arrays créés dans Accueil
+    -> Vous passez toutes les infos en paramètres de render
+    -> Vous passez la vue à affiche dans render
+    -> test /categorie/pull (affiche tous les produits)
+    
+    
+    Créer la route produit qui affiche la page d'un produit
 
-   -> Créer un array produit dans la fonction produitAction()
-   -> Vous passez toutes les infos en paramètres de render
-   -> Vous pasez la vue produit.html.twig à render
-   -> Vous créez le fichier produit.html.twig (héritage, boucle, et variables)
+    -> Créer un array produit dans la fonction produitAction()
+    -> Vous passez toutes les infos en paramètres de render
+    -> Vous pasez la vue produit.html.twig à render
+    -> Vous créez le fichier produit.html.twig (héritage, boucle, et variables)
 
 
 ----------------------------------------
@@ -445,11 +445,11 @@ Sommaire :
 --------------------
 1/Doctrine ORM et le concepte des entités
 
-D'une certaine manière nos entités correspondent à la partie Model du MVC.
-No ne va plus faire de SQL, et (normalement) ne plus me mettre le nez dans PHPMYADMIN.
-On va créer nos entités (nos POPO, classes, NOS PLANS DE fabrication ) des objets qui vont être  manipulés dans l'app.
-Doctrine ORM, grâce à des annotations, (ORM : Object Relation Mapping), va comprendre toutes les intéractions qu'il existe entre les objets. Et donc va prendre la main.
-Par exemple, nous ne ferons plus de requête INSERT, pour enregistrer une entrée, mais nous utiliserons des fonctions de Doctrine pour enregistrer des infos en BDD (on dit persister)
+    D'une certaine manière nos entités correspondent à la partie Model du MVC.
+    No ne va plus faire de SQL, et (normalement) ne plus me mettre le nez dans PHPMYADMIN.
+    On va créer nos entités (nos POPO, classes, NOS PLANS DE fabrication ) des objets qui vont être  manipulés dans l'app.
+    Doctrine ORM, grâce à des annotations, (ORM : Object Relation Mapping), va comprendre toutes les intéractions qu'il existe entre les objets. Et donc va prendre la main.
+    Par exemple, nous ne ferons plus de requête INSERT, pour enregistrer une entrée, mais nous utiliserons des fonctions de Doctrine pour enregistrer des infos en BDD (on dit persister)
 
 
 2/ Créer ses entités
@@ -463,41 +463,41 @@ Par exemple, nous ne ferons plus de requête INSERT, pour enregistrer une entré
 
 
 3/Les annotations :
-Encore une fois les annotations vont être interprétées, et nous rendent un grand service. Elles permettent à notre ORM de comprendre les interactions entre les objets et la BDD, et les objets entre eux. C'est cela que l'on appelle le "maping".    
+    Encore une fois les annotations vont être interprétées, et nous rendent un grand service. Elles permettent à notre ORM de comprendre les interactions entre les objets et la BDD, et les objets entre eux. C'est cela que l'on appelle le "maping".    
 
-<code>
-USE Doctrine\ORM\Mapping as ORM
-
-On précise que notre classes va etre mappée
-<code>
-/**
-*@ORM\Entity
-*/
-
-Pour chaque propriété on définie les infos :
     <code>
-        /**
-        * @ORM\Column(name="id_produit", type="integer")
-        * @ORM\Id
-        * @ORM\GenerateValue (strategy="AUTO")
-        */
+    USE Doctrine\ORM\Mapping as ORM
 
-    <code> (exemples)
-        /**
-        * @ORM\Column(name="reference", type="string", length="20", nullable=false)
-        * @ORM\Column(name="date", type="date")
-        *
-        */
+    On précise que notre classes va etre mappée
+    <code>
+    /**
+    *@ORM\Entity
+    */
+
+    Pour chaque propriété on définie les infos :
+        <code>
+            /**
+            * @ORM\Column(name="id_produit", type="integer")
+            * @ORM\Id
+            * @ORM\GenerateValue (strategy="AUTO")
+            */
+
+        <code> (exemples)
+            /**
+            * @ORM\Column(name="reference", type="string", length="20", nullable=false)
+            * @ORM\Column(name="date", type="date")
+            *
+            */
 
 
-    Liens :
-    Basic Mapping :
-    https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html
-    Association Mapping :
-    https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html
+        Liens :
+        Basic Mapping :
+        https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html
+        Association Mapping :
+        https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html
 
 
-    4/ Genérer ses entités :
+4/ Genérer ses entités :
         A/ Régler les paramètres de connexion à la BDD  
             app/Config/parameters.yml
 
@@ -526,73 +526,73 @@ Pour chaque propriété on définie les infos :
      Méthode 2 : Je génère mes entités grâce à la BDD
 
    <cmd>
-php bin/console doctrine:mapping:import App\\Entity annotation --path=src/BoutiqueBunde/Entity
+    php bin/console doctrine:mapping:import App\\Entity annotation --path=src/BoutiqueBunde/Entity
 
 
 
 6/ Requête INSERT/UPDATE
 
--> INSERT :
-Pour insérer une nouvelle entrée, on instancie un objet de l'entité
-<code>
-$membre = new Membre;
+    -> INSERT :
+    Pour insérer une nouvelle entrée, on instancie un objet de l'entité
+    <code>
+    $membre = new Membre;
 
-On définie les propriétés
-<code>
-$membre -> setPrenom('lePrenom');
+    On définie les propriétés
+    <code>
+    $membre -> setPrenom('lePrenom');
 
-...
+    ...
 
-On récupère le manager
-<code>
-$em = $this ->getDoctrine() -> getManager();
+    On récupère le manager
+    <code>
+    $em = $this ->getDoctrine() -> getManager();
 
-On persiste, afin de préparer l'insertion, puis on flush pour rendre l'enregistrement effectif
-<code>
-$em -> persist($membre);
-$em -> flush();
-
-
+    On persiste, afin de préparer l'insertion, puis on flush pour rendre l'enregistrement effectif
+    <code>
+    $em -> persist($membre);
+    $em -> flush();
 
 
--> UPDATE :
-Pour modifier un membre= une entrée on récupere, on modifier les propriétés à modifier, on le persist et on le flush.
-$em = $this -> getDoctrine() -> getManager();
-$membre = $em -> find (Membre::class, $id);
-
-$membre -> setPrenom('nouveau_prenom);
-
-$em -> persist($membre);
-$em -> flush();
 
 
-c'est faire : MembreController, route membre/update/$id
+    -> UPDATE :
+    Pour modifier un membre= une entrée on récupere, on modifier les propriétés à modifier, on le persist et on le flush.
+    $em = $this -> getDoctrine() -> getManager();
+    $membre = $em -> find (Membre::class, $id);
+
+    $membre -> setPrenom('nouveau_prenom);
+
+    $em -> persist($membre);
+    $em -> flush();
+
+
+    c'est faire : MembreController, route membre/update/$id
 
 
 
 
 
 7/ Requete Delete 
-Doctrine manipule des objets liés à nos entités. Aussi pour supprimer une entrée on doit d'abord la récupérer.
+    Doctrine manipule des objets liés à nos entités. Aussi pour supprimer une entrée on doit d'abord la récupérer.
 
-Ensuite la fonction remove() de notre EntityManager ($em), nous permet de préparer la suppression. le flush() la rend effective.
+    Ensuite la fonction remove() de notre EntityManager ($em), nous permet de préparer la suppression. le flush() la rend effective.
 
-cf route /membre/delete/{id} de MembreController
+    cf route /membre/delete/{id} de MembreController
 
 
 8/ Create Query et Query Builder
 
-Doctrine nous permet de facilement manipuler des enregistrements dans la BDD grâce aux entités ('find, findBy, findOneBy, findAll, remove, delete).
-Cela dit, on peut etre ammené à vouloir des requêtes plus complexes....
-Doctrine nous fournit donc deux outils interessants :
+    Doctrine nous permet de facilement manipuler des enregistrements dans la BDD grâce aux entités ('find, findBy, findOneBy, findAll, remove, delete).
+    Cela dit, on peut etre ammené à vouloir des requêtes plus complexes....
+    Doctrine nous fournit donc deux outils interessants :
 
-- Create Query  :  Nous permet d'écrire des requêtes en SQL (DQL). Voir la route "/" de ProduitController (requete DISTINCT)
-	
-	Lien : https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html
-	
-- Query Builder : Nous permet d'écrire des requêtes en PHP. Voir la route "produit/{id}" de ProduitController 
+    - Create Query  :  Nous permet d'écrire des requêtes en SQL (DQL). Voir la route "/" de ProduitController (requete DISTINCT)
+        
+        Lien : https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html
+        
+    - Query Builder : Nous permet d'écrire des requêtes en PHP. Voir la route "produit/{id}" de ProduitController 
 
-	lien : https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/query-builder.html
+        lien : https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/query-builder.html
 
 ----------------------------
 ETAPE 8 : Les formulaires :
@@ -608,50 +608,50 @@ ETAPE 8 : Les formulaires :
     8/ Champs file (photos des produits)
 ------------------------------------
 
-1/ Le fonctionnement des formulaires
+    1/ Le fonctionnement des formulaires
 
--> les formulaires sont liés à nos entités (ajout de produit, modif produit, inscription, modif de profil...)
--> chaque type de champ est géré par une classe (TextType, ChoiceType, SubmitType....)
-     Par exemple lorsque on va modifier un produit, on va envoyer au  formulaire un objet $produit, on dit qu'on hydrate le formulaire
+        -> les formulaires sont liés à nos entités (ajout de produit, modif produit, inscription, modif de profil...)
+        -> chaque type de champ est géré par une classe (TextType, ChoiceType, SubmitType....)
+        Par exemple lorsque on va modifier un produit, on va envoyer au  formulaire un objet $produit, on dit qu'on hydrate le formulaire
 
 
-2/ Création d'un formulaire (simple) pour l'Inscription
+    2/ Création d'un formulaire (simple) pour l'Inscription
 
-    -> route "/inscription" du MembreController
+        -> route "/inscription" du MembreController
 
-    FormBuilder est "/inscription" de formulaire. il nous permet de paramétrer des formulaires.
-    <code>
-    $formBuilder = $this -> get (form.factory) -> createBuilder (FromType::class, $membre);
-    ou :
-    $formBuilder = $this -> ceateFormBuilder($membre);
+        FormBuilder est "/inscription" de formulaire. il nous permet de paramétrer des formulaires.
+        <code>
+        $formBuilder = $this -> get (form.factory) -> createBuilder (FromType::class, $membre);
+        ou :
+        $formBuilder = $this -> ceateFormBuilder($membre);
 
-    !! On lie un objet $membre attendus dans le formulaire avec -add()
-    On ajoute tous les champs atendus dans le formulaire avec -add()
-    <code>
-    $formBuilder 
-        -> add('pseudo', TextType::class)
-        -> add('codePostal', IntegerType::class)
-        ->etc....
+        !! On lie un objet $membre attendus dans le formulaire avec -add()
+        On ajoute tous les champs atendus dans le formulaire avec -add()
+        <code>
+        $formBuilder 
+            -> add('pseudo', TextType::class)
+            -> add('codePostal', IntegerType::class)
+            ->etc....
 
-    /!\ Attention à bien "use" toutes les TypeClass utilisées  dans le formulaire
+        /!\ Attention à bien "use" toutes les TypeClass utilisées  dans le formulaire
 
-    on créer le formulaire
-    <cmd>   
-    $form = $formBuilder -> getForm()
+        on créer le formulaire
+        <cmd>   
+        $form = $formBuilder -> getForm()
 
-    on récupère la vue du formulaire qui sera ensuite transmise à la vue, via $param_du_server<code>
-    $formView = array (
-    'membreForm' => $formView
-    );
+        on récupère la vue du formulaire qui sera ensuite transmise à la vue, via $param_du_server<code>
+        $formView = array (
+        'membreForm' => $formView
+        );
 
-    Dans la vue on affiche le formulaire en twig
-    <code>
-    {{ form(membreForm) }}
+        Dans la vue on affiche le formulaire en twig
+        <code>
+        {{ form(membreForm) }}
 
 
     3/ Les classes Type
 
-    https://symfony.com/doc/current/reference/forms/types.html
+        https://symfony.com/doc/current/reference/forms/types.html
 
 
     4/ Récupérer les données d'un formulaire
@@ -700,7 +700,7 @@ ETAPE 8 : Les formulaires :
 
         /!\ Gain de temps et meuilleur factorisation du code.
 
-    - Comme souvent, il existe une ligne de commande pour le faire presque intégralement
+        - Comme souvent, il existe une ligne de commande pour le faire presque intégralement
 
         <cmd>
         php bin/console generate:doctrine:form BoutiqueBundle:Produit  
@@ -709,11 +709,84 @@ ETAPE 8 : Les formulaires :
 
         ----> Cela a créer dans le dossier src/BoutiqueBundle/Form/ProduitType.php, CommandeType.php et MembreType.php  
 
+        - Confugurer le formulaire dans une classe (exemple MembreType) permet d'y faire appel rapidement, mais nécessite, d'hériter de la classe Abstraite Abstract Type.
+
+        -On peut paramétrer en détail chaque champs (required, attr, constraints (NotBlank, length etc..))
+        -> CF MembreType et ProduitType
+
+
+        -Dans le controller, il est plus nécessaire de créer le formulaire mais simplement de le récupérer
+        <code>
+        $form = $this -> createForm(MembreType::class, $membre);
+
 
 
     7/ Update un enregistrement d'un formulaire 
+        -> cf route update_produit
+        -> le fonctionnement de symfony permet de simplement  hydrater un formulaire avec les infos d'une entité, et le fait de valider le formulaire (persist(), flush()) permet de modifier l'enregistrement en BDD.
+
+
+
     8/ Champs file (photos des produits)
 
+        A/ Pour la photo de produit on créer un champs file
+        -> add('file', FileType::class);
+        /!\ A noter que notre champs se nomme 'file' et non 'photo'
+
+        B/ Le chams file nous retourne un objet de la classe UploadeFile.
+        /!\ Le enctype="multipart/form-data" se fait automatiquement.
+
+        C/ Modifier notre entité Produit :
+            1) use Symfony\Component\HttpFoundation\File\UploadedFile
+            2) - On créer la propriété private $file
+            - On créer les getter et les setter 
+            /!\ Attention le setter prend en arg un objet UploadedFile
+            3) On créer les fonctions 
+                chargementPhoto()
+                photoDir()
+                renameFile()
+
+        D) On modifier le controller, en oubliant d'exécuter chargementPhoto() avant de flush() le produit.
+
+        /!\ Plus tard on purrait utiliser les événements pour automatiquer certaines choses (ex : supprimer un prioduit, et du coup supprimer la photo du serveur). 
+
+
+
+---------------------- 
+ETAPE 10 : Sécurité et Utilisateur
+Sommaire :
+1/ Niveaux de sécurité
+2/ Fichier de sécurité
+3/Classe Membre
+------------------------    
+
+1/ Niveaux de sécurité
+    Sur Symfony il existe 3 niveaux de sécurité :
+        +-Anonyme
+        - User identifié (ROLE_USER)
+        - User avec droits d'admin (ROLE_ADMIN)
+
+
+    Le systeme de SF se comporte comme un parefeu sur chaque page (route). A chaque fois SF va tester le statut de l'utilisateur et de la ressource.
+
+        -Si user anonyme, ressource dispo : OK 
+        -Si user anonyme,  ressources non autorisé : -> Connexion
+        -Si user connecter, ressources dispo : OK
+        -Si user connecter, mais ressources non autorisé : Page erreurs
+
+
+
+2/ Fichier de sécurité
+
+    - app/config/security.yml
+    -> Encoders (plaintext signifie pas d'encodage)
+	-> Providers (Qui sont nos users + users éphémères pour les tests)
+	-> Firewalls (Les règles connexion/deconnexion)
+	-> Access Control (accessibilité)
+	-> Role hierarchy (degré d'action possible)
+
+
+3/Classe Membre
 
 
 
@@ -740,9 +813,3 @@ ETAPE 8 : Les formulaires :
 
 
 
-
-
- -----------------------------------------------------------------------------------   
-Créer un nouveau projet symfony boutique3
-Lancer le projetCréer un Bundle BoutiqueBundle (sans namespace) à la question :N
---------------------------------------------------------------------------------

@@ -8,13 +8,7 @@ use BoutiqueBundle\Entity\Membre;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType; // input type text
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;// input type password
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;// input type number
-use Symfony\Component\Form\Extension\Core\Type\EmailType;// input type email
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;// input type choicetype
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;// input type submit
+use BoutiqueBundle\Form\MembreType;
 
 
 
@@ -31,6 +25,7 @@ class MembreController extends Controller
 
         // Je génère le formulaire (HTML- la partie visuelle)
         $formView = $form -> createView();
+        
 
         // permet de récupérer les données du post 
         $form -> handleRequest($request);

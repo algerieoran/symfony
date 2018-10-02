@@ -12,12 +12,11 @@ use BoutiqueBundle\Entity\Membre;
 use BoutiqueBundle\Entity\Commande;
 use BoutiqueBundle\Entity\DetailsCommande;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType; // input type text
-use Symfony\Component\Form\Extension\Core\Type\TextareaType; // input type textarea
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;// input type choicetype
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;// input type number
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;// input type submit
+use BoutiqueBundle\Form\ProduitType;
+use BoutiqueBundle\Form\MembreType;
+use BoutiqueBundle\Form\CommandeType;
+
+
 
 class AdminController extends Controller
 {
@@ -57,50 +56,35 @@ class AdminController extends Controller
 
         $produit = new Produit; // objet vide
 
-        $formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $produit);
-
-        $formBuilder
-
-            -> add('reference', TextType::class)
-            -> add('categorie', TextType::class)
-            -> add('titre', TextType::class)
-            -> add('description', TextAreaType::class)
-            -> add('couleur', TextType::class)
-            -> add('taille', TextType::class)
-            -> add('public', ChoiceType::class, array(
-
-                'choices' => array(
-                        'Homme' => 'm',
-                        'Femme' => 'f'
-                    )
-                ))
-            -> add('stock', TextType::class)
-            -> add('prix', IntegerType::class)
-            -> add('photo', TextType::class)
-            -> add('ajouter', SubmitType::class);
+        // on récupère notre formulaire en lui passant l'objet qu'il représente
+        $form = $this -> createForm(ProduitType::class, $produit);
 
 
-        // Je récupère le formulaire :
-        $form = $formBuilder -> getForm();
+      
+
+
 
         // Je génère le formulaire (HTML- la partie visuelle)
          $formView = $form -> createView();
 
         // permet de récupérer les données du post 
         $form -> handleRequest($request);
-        if($form -> isSubmitted () && $form -> isValid()){
-            // on verra plus tard la validation
-          
+            if($form -> isSubmitted () && $form -> isValid()){
+                // on verra plus tard la validation
+            
 
-            $em = $this -> getDoctrine () -> getManager();
-            $em -> persist($produit);
-            $em -> flush();
+                $em = $this -> getDoctrine () -> getManager();
+                $em -> persist($produit);
 
-            $session = $request -> getSession();
-            $session -> getSession() -> getFlashBag() -> add('success', 'le produit est ajouté !');
-            return $this -> redirectToRoute('show_produit');
+                $produit -> chargementPhoto();
 
-        }
+                $em -> flush();
+
+                $session = $request -> getSession();
+                $session -> getFlashBag() -> add('success', 'le produit est ajouté !');
+                return $this -> redirectToRoute('show_produit');
+
+            }
 
         $params = array(
             'produitForm' => $formView,
@@ -123,30 +107,11 @@ class AdminController extends Controller
         $repository = $this -> getDoctrine() -> getRepository(Produit::class);
         $produit = $repository -> find($id);
 
-        $formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $produit);
+        $form = $this -> createForm(ProduitType::class, $produit);
 
-        $formBuilder
-
-            -> add('reference', TextType::class)
-            -> add('categorie', TextType::class)
-            -> add('titre', TextType::class)
-            -> add('description', TextAreaType::class)
-            -> add('couleur', TextType::class)
-            -> add('taille', TextType::class)
-            -> add('public', ChoiceType::class, array(
-
-                'choices' => array(
-                        'Homme' => 'm',
-                        'Femme' => 'f'
-                    )
-                ))
-            -> add('stock', TextType::class)
-            -> add('prix', IntegerType::class)
-            -> add('photo', TextType::class)
-            -> add('Modifier', SubmitType::class);
-
-        $form = $formBuilder -> getForm();
+       
         $formView = $form -> createView();
+
         $form -> handleRequest($request);
 
         if($form -> isSubmitted () && $form -> isValid()){
@@ -155,6 +120,9 @@ class AdminController extends Controller
 
             $em = $this -> getDoctrine () -> getManager();
             $em -> persist($produit);
+
+            $produit -> chargementPhoto();
+
             $em -> flush();
 
            
@@ -166,7 +134,8 @@ class AdminController extends Controller
 
         $params = array(
             'produitForm' => $formView,
-            'title' => 'Modifier le produit n°' . $id
+            'title' => 'Modifier le produit n°' . $id,
+            'photo' => $produit -> getPhoto()
         );
 
 
