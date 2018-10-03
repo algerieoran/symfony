@@ -228,6 +228,134 @@ class AdminController extends Controller
     }
 
 
+    /**
+    * @Route("/admin/membre/show", name="show_membre")
+    */
+    public function membreShowAction(){
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $membres= $repository -> findAll();
+
+        $params = array (
+            'membres' => $membres,
+            'title'  => 'Gestion des membres'
+        );
+
+        return $this -> render('@Boutique/Admin/show_membre.html.twig', $params);
+    }
+
+    /**
+     * @Route("/admin/membre/add", name="add_membre") 
+    */
+    public function membreAddAction(Request $request) {
+
+        $membre = new Membre; 
+
+        // on récupère notre formulaire en lui passant l'objet qu'il représente
+        $form = $this -> createForm(MembreType::class, $membre);
+
+
+        // Je génère le formulaire (HTML- la partie visuelle)
+         $formView = $form -> createView();
+
+        // permet de récupérer les données du post 
+        $form -> handleRequest($request);
+            if($form -> isSubmitted () && $form -> isValid()){
+                // on verra plus tard la validation
+            
+
+                $em = $this -> getDoctrine () -> getManager();
+                $em -> persist($membre);
+
+                // $membre -> chargementPhoto();
+
+                $em -> flush();
+
+                $session = $request -> getSession();
+                $session -> getFlashBag() -> add('success', 'le nouveau membre est enregistré !');
+                return $this -> redirectToRoute('show_membre');
+
+            }
+
+        $params = array(
+            'membreForm' => $formView,
+            'title'  => 'Ajouter un nouveau membre'
+        );
+
+        return $this -> render('@Boutique/Admin/form_membre.html.twig', $params);
+    
+    }
+
+    /**
+     * @Route("/admin/membre/update/{id}", name="update_membre") 
+    */
+    public function membreUpdateAction($id, Request $request) {
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $produit = $repository -> find($id);
+
+        $form = $this -> createForm(MembreType::class, $membre);
+
+       
+        $formView = $form -> createView();
+
+        $form -> handleRequest($request);
+
+        if($form -> isSubmitted () && $form -> isValid()){
+            // on verra plus tard la validation
+          
+
+            $em = $this -> getDoctrine () -> getManager();
+            $em -> persist($membre);
+
+            // $membre -> chargementPhoto();
+
+            $em -> flush();
+
+           
+
+            $request -> getSession() -> getFlashBag() -> add('success', 'le membre a bien été modifier!');
+            return $this -> redirectToRoute('show_membre');
+
+        }
+
+        $params = array(
+            'membreForm' => $formView,
+            'title' => 'Modifier le membre n°' . $id,
+            // 'photo' => $membre -> getPhoto()
+        );
+
+
+    
+        return $this -> render('@Boutique/Admin/form_membre.html.twig', $params);
+    }
+
+
+
+    /**
+     * @Route("/admin/membre/delete/{id}", name="delete_membre") 
+     * 
+     */
+
+    public function membreDeleteAction($id) {
+        // on récuper le membre via le manager .... parce qu'on en avoir besoin pour la suppression 
+        $em = $this -> getDoctrine() -> getManager();
+        $membre = $em -> find(Membre::class, $id);
+
+        $em -> remove($membre);
+        $em -> flush();
+
+
+        $session = $request -> getSession();
+        $session = $request -> getSession() -> getFlashBag() -> add("OK, le membre id: " . $id . " a été supprimé !"); 
+        
+
+      
+
+        return $this -> redirectToRoute('show_membre');
+    }
+
+
+
+
 
 
 

@@ -17,18 +17,18 @@
 
 
         <div class="form-group">
-            <label>{{ form_label(membreForm.pseudo) }}</label>
-            {{ form_widget(membreForm.pseudo, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
-            {% if(form_errors(membreForm.pseudo)) %}
-            <span class="alert-danger">{{ form_errors(membreForm.pseudo) }}</span>
+            <label>{{ form_label(membreForm.username) }}</label>
+            {{ form_widget(membreForm.username, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
+            {% if(form_errors(membreForm.username)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.username) }}</span>
             {% endif %}
         </div>
 
         <div class="form-group">
-            <label>{{ form_label(membreForm.mdp) }}</label>
-            {{ form_widget(membreForm.mdp, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre mot de passe' }} ) }}
-            {% if(form_errors(membreForm.mdp)) %}
-            <span class="alert-danger">{{ form_errors(membreForm.mdp) }}</span>
+            <label>{{ form_label(membreForm.password) }}</label>
+            {{ form_widget(membreForm.password, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre mot de passe' }} ) }}
+            {% if(form_errors(membreForm.password)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.password) }}</span>
             {% endif %}
         </div>
 

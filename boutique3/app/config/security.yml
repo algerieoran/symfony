@@ -39,12 +39,12 @@ security:
             form_login: 
                 check_path: connexion
                 login_path: connexion
-                default_target_path: home
+                default_target_path: accueil
 
 
             logout:
                 path: deconnexion
-                target: home
+                target: accueil
             
     access_control:
         - {path: ^/admin, roles: ROLE_ADMIN}
@@ -52,7 +52,7 @@ security:
         #- {path: ^/INSCRIPTION, roles: ROLE_AUTHENTICATED_ANONYMOUS}
 
     role_hierarchy:
-        ROLE_ADMIN : ROLE_USER
+        ROLE_ADMIN: ROLE_USER
         ROLE_SUPER_ADMIN: [RALE_ADMIN, ROLE_USER]
 
         

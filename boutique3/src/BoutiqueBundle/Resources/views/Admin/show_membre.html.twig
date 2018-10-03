@@ -1,0 +1,52 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+
+<h1{{ title }}></h1>
+
+<table border="1" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id du membre</th>
+            <th>username</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>email</th>
+            <th>Civilite</th>
+            <th>Ville</th>
+            <th>Code postal</th>
+            <th>Statut</th>
+            <th>Adresse</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Salt</th>
+            <th colspan="2">Actions</th>
+            
+        </tr>
+    </thead>
+    </tbody>
+        {% for pdt in membres %}
+        <tr>
+            <th>{{ pdt.id_membre }}</th>
+            {# <th><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}"/></th>  #}
+            <th>{{ pdt.username }}</th>
+            <th>{{ pdt.nom }}</th>
+            <th>{{ pdt.prenom }}</th>
+            <th>{{ pdt.email }}</th>
+            <th>{{ pdt.civilite }}</th>
+            <th>{{ pdt.ville }}</th>
+            <th>{{ pdt.code_postal }}</th>
+            <th>{{ pdt.statut }}</th>
+            <th>{{ pdt.adresse }}</th>
+            <th>{{ pdt.role }}</th>
+            <th>{{ pdt.salt }}</th>
+            <th><a href="{{ path('update_membre', { 'id' : pdt.id_membre } )}}"><i class="far fa-edit"></i></a></th>
+            <th><a href="{{ path('delete_membre', { 'id' : pdt.id_membre } )}}"><i class="far fa-trash-alt"></i></a></th>
+          
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+    
+{% endblock %}

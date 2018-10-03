@@ -8,83 +8,17 @@ use BoutiqueBundle\Entity\Membre;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
+
 use BoutiqueBundle\Form\MembreType;
 
 
 
 class MembreController extends Controller
 {
-    /**
-     * @Route("/inscription", name="inscription")
-     */
-    public function inscriptionAction(Request $request)
-    {
-        $membre = new Membre;
-
-        $form =$this -> createForm(MembreType::class, $membre);
-
-        // Je génère le formulaire (HTML- la partie visuelle)
-        $formView = $form -> createView();
-        
-
-        // permet de récupérer les données du post 
-        $form -> handleRequest($request);
-        if($form -> isSubmitted () && $form -> isValid()){
-            // on verra plus tard la validation
-          
-
-            $em = $this -> getDoctrine () -> getManager();
-            $em -> persist($membre);
-            $em -> flush();
-
-            $request -> getSession() -> getFlashBag() -> add('success', 'Félicitation, vous êtes inscrit !');
-
-            return $this -> redirectToRoute('connexion');
+   
 
 
-        }
-
-        
-
-      $params = array(
-        'membreForm' => $formView,
-        //'membres' => $membres,
-        'title'  => 'Inscription'
-       );
-
-        return $this -> render('@Boutique/Membre/inscription.html.twig', $params);
-    
-    }
-
-
-    /**
-     * @Route("/connexion", name="connexion")
-     */
-    public function connexionAction()
-    {
-    // methode numéro 1 pour récupérer un repository :
-        //$repository = $this -> getDoctrine() -> getRepository('BoutiqueBundle\Entity\Membre'); 
-        // OU :
-        // $repository = $this -> getDoctrine() -> getRepository(Membre::class);
-
-
-        // $membres = $repository -> findAll(); 
-
-
-        // echo '<pre>';
-        //     var_dump ($membres);
-        // echo '</pre>';
-
-        
-
-         $params = array(
-
-         'title'  => 'Connexion'
-     );
-
-        return $this -> render('@Boutique/Membre/connexion.html.twig', $params);
-    
-    }
+ 
 
     /**
      * @Route("membre/update/{id}")
@@ -120,5 +54,23 @@ class MembreController extends Controller
         // A tester :localhost:8000/membre/delete/14
 
     }
-    
+
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profilAction(){
+
+        $security = $this -> get('security.token_storage');
+        $token = $security -> getToken();
+        $user = $token -> getUser();
+
+        $params = array(
+         
+            'title'  => 'Profil de : ' .$user -> getUsername(),
+          
+           
+        );
+        return $this -> render('@Boutique/Membre/profil.html.twig', $params);
+
+    }
 }

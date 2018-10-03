@@ -786,7 +786,35 @@ Sommaire :
 	-> Role hierarchy (degré d'action possible)
 
 
-3/Classe Membre
+
+3/ SecurityController
+	-> Nous alons coder les routes Inscription/connexion/deconnexion
+
+
+
+
+4/Classe Membre
+    -> Implementation de UserInterface
+    -> Modifier pseudo --> username ( + getter et setter)
+    -> Modifier mdp --> password ( + getter et setter)
+    -> ajouter salt ( + getter et setter)
+    -> ajouter role ( + getter et setter)
+    -> ajouter getRoles() et EraCredential() (obligatoire et liéer à l'implémentation de UserInterface)
+
+
+5/Classe Membre
+    -> Modifier pseudo --> username
+    -> Modifier mdp --> password
+
+6/ inscription.html.twig    
+    -> Modifier pseudo --> username
+    -> Modifier mdp --> password
+
+
+7/ Route Connexion 
+
+    
+
 
 
 
