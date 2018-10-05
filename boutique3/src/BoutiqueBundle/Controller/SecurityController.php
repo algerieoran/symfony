@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends Controller
 {
 
-     /**
+    /**
      * @Route("/inscription", name="inscription")
      */
     public function inscriptionAction(Request $request)
@@ -31,7 +31,7 @@ class SecurityController extends Controller
             // Je génère le formulaire (HTML - partie visuel)
             $formView = $form -> createView();
 
-                // permet de récupérer les données du poste
+            // permet de récupérer les données du poste
             $form -> handleRequest($request);
             if ($form -> isSubmitted() && $form -> isValid() ){
                 // On verra plus tard la validation

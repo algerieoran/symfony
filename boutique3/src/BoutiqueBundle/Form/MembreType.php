@@ -32,35 +32,7 @@ class MembreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder 
-            -> add('username', TextType::class, array(
-                'required' => false,
-                'constraints' => array(
-                    new Assert\NotBlank(array(
-                        'message' => 'Veuillez remplir ce champs'
-                    )),
-                    new Assert\Length(array(
-                        'min' => 3,
-                        'max' => 20,
-                        'minMessage' => 'Le pseudo doit comporter minimum 3 caractères',
-                        'maxMessage' => 'Le pseudo doit comporter maximum 20 caractères'
-                    )),
-                    new Assert\Regex(array(
-                        'pattern' => '/^[a-zA-Z-._0-9]+$/',
-                        'message' => 'Le pseudo accepte les lettre et les chiffres'
-                    ))
-                )
-            )) 
-            -> add('password', PasswordType::class, array(
-                'required' => false,
-                'constraints' => array(
-                    new Assert\NotBlank,
-                    new Assert\Regex(array(
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{8,20}$/',
-                        'message' => 'Veuillez renseigner un Mot de passe de 8 caractères mini contentant une maj, et un chiffre, et un caractère spécial' 
-                    ))
-                )
-
-            ))
+           
             -> add('prenom', TextType::class, array(
                 'required' => false,
                 'constraints' => array(
@@ -85,13 +57,7 @@ class MembreType extends AbstractType
                     ))
                 )
             ))
-            -> add('email', EmailType::class, array(
-                'required' => false,
-                'constraints' => array(
-                    new Assert\NotBlank,
-                    new Assert\Email
-                )
-            ))
+           
             -> add('civilite', ChoiceType::class, array(
                 'choices' => array(
                     'Homme' => 'm',
@@ -140,12 +106,8 @@ class MembreType extends AbstractType
                     'placeholder' => 'Votre Adresse',
                     'class' => 'form-control'
                 )
-            ))
-            -> add('save', SubmitType::class, array(
-                'attr'=> array(
-                   'class' => "btn-success"
-                )
             ));
+            
     }
 
 
@@ -158,6 +120,11 @@ class MembreType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'BoutiqueBundle\Entity\Membre'
         ));
+    }
+
+
+    public function getParent(){
+        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
     }
 
 

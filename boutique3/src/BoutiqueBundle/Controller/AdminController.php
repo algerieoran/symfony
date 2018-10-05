@@ -132,6 +132,9 @@ class AdminController extends Controller
 
         }
 
+        
+
+
         $params = array(
             'produitForm' => $formView,
             'title' => 'Modifier le produit n°' . $id,
@@ -144,7 +147,7 @@ class AdminController extends Controller
     }
 
 
-    // yakine
+// yakine
 //     <?php
 
 // public function produitUpdateAction($id, Request $request){
@@ -290,7 +293,7 @@ class AdminController extends Controller
     */
     public function membreUpdateAction($id, Request $request) {
         $repository = $this -> getDoctrine() -> getRepository(Membre::class);
-        $produit = $repository -> find($id);
+        $membre = $repository -> find($id);
 
         $form = $this -> createForm(MembreType::class, $membre);
 
@@ -335,7 +338,7 @@ class AdminController extends Controller
      * 
      */
 
-    public function membreDeleteAction($id) {
+    public function membreDeleteAction($id, Request $request) {
         // on récuper le membre via le manager .... parce qu'on en avoir besoin pour la suppression 
         $em = $this -> getDoctrine() -> getManager();
         $membre = $em -> find(Membre::class, $id);
@@ -345,13 +348,88 @@ class AdminController extends Controller
 
 
         $session = $request -> getSession();
-        $session = $request -> getSession() -> getFlashBag() -> add("OK, le membre id: " . $id . " a été supprimé !"); 
+        $session-> getFlashBag() -> add("OK, le membre id: " . $id . " a été supprimé !"); 
         
 
       
 
         return $this -> redirectToRoute('show_membre');
     }
+
+    /**
+     * @Route("admin/membre/profil/{id}", name="profil_membre")
+     */
+    public function profilMembreAction($id, Request $request)
+    {
+        $passwordEncoder = $this -> get('security.password_encoder');
+
+       
+
+        
+
+        $membre = new Membre;
+        $membre -> setStatut(0);
+        $membre -> setRole('ROLE_USER');
+        $form = $this -> createForm(MembreType::class, $membre);
+        
+
+            // Je génère le formulaire (HTML - partie visuel)
+            $formView = $form -> createView();
+
+            // permet de récupérer les données du poste
+            $form -> handleRequest($request);
+            if ($form -> isSubmitted() && $form -> isValid() ){
+                // On verra plus tard la validation
+
+
+                $salt = substr(md5(time()), 0, 23);
+                // time() : 1545223656
+                // time() crypté en MD5 : 52154dsqf6s5564g46g6f5s65s565g654
+                // ON conserve du 0 au 23 ème caractères : 52154dsqf6s5564g46g6f5s65
+
+                $password = $passwordEncoder -> encodePassword($membre, $salt);
+                $membre -> setPassword($password) -> setSalt($salt);
+                // On mets dans l'objet $membre le nouveau password (crypté) et le salt (génèré aléatoirement) afin que ces deux valeurs soient enregistrée en BDD.
+                
+                $em = $this -> getDoctrine() -> getManager();
+                $em -> persist($membre);
+                $em -> flush();
+
+                $request -> getSession() -> getFlashBag() -> add('success', 'la fiche de l\' utilisateur  n° :' . $id);
+                // return $this -> redirectToRoute('connexion');
+            }
+
+
+
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $membre= $repository -> find($id);
+
+        // $query = $em -> createQueryBuilder(); // Objet QueryBuilder
+
+        // $query 
+        // -> select ('m')
+        // -> from (membre::class,'m')
+        // -> where ('m.id_membre= :id_membre')
+        // -> setParameter ('id_membre', $produit -> getId_membre());
+       
+        // $suggestions = $query -> getQuery() -> getResult();
+
+
+
+        $params = array (    
+            'title' => 'Le Profile des membres',
+            'membreForm' => $formView,
+            'membre' => $membre
+            // 'suggestions' => $suggestions
+           
+        );
+
+        var_dump($membre);
+
+        return $this->render('@Boutique/Admin/profil_membre.html.twig' , $params);
+    }
+
+    
 
 
 
