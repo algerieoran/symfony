@@ -3,6 +3,8 @@
 namespace BoutiqueBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface; 
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Membre
@@ -10,146 +12,90 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="membre")
  * @ORM\Entity(repositoryClass="BoutiqueBundle\Repository\MembreRepository")
  */
-class Membre
+class Membre extends BaseUser
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id_membre", type="integer", nullable=false)
+     * @ORM\Column(name="id_membre", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idMembre;
+    protected $id;
+
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=20)
+     */
+    protected $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=20, nullable=false)
+     * @ORM\Column(name="prenom", type="string", length=20)
      */
-    private $pseudo;
+    protected $prenom;
+
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mdp", type="string", length=32, nullable=false)
+     * @ORM\Column(name="civilite", type="text")
      */
-    private $mdp;
+    protected $civilite;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=20, nullable=false)
+     * @ORM\Column(name="ville", type="string", length=20)
      */
-    private $nom;
+    protected $ville;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="code_postal", type="integer")
+     */
+    protected $codePostal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="prenom", type="string", length=20, nullable=false)
+     * @ORM\Column(name="adresse", type="string", length=50)
      */
-    private $prenom;
+    protected $adresse;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @ORM\Column(name="statut", type="integer")
      */
-    private $email;
+    protected $statut = 0;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="civilite", type="string", length=1, nullable=false)
-     */
-    private $civilite;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=20, nullable=false)
-     */
-    private $ville;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="code_postal", type="integer", nullable=false)
-     */
-    private $codePostal;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="adresse", type="string", length=50, nullable=false)
-     */
-    private $adresse;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="statut", type="integer", nullable=false)
-     */
-    private $statut = '0';
+    // public function __construct(){
+    //     $this -> statut = 0; 
+    //     //$this -> setStatut(0);
+    //     $this -> date_enregistrement = new \DateTime; 
+    // }
 
 
 
     /**
-     * Get idMembre
+     * Get id_membre
      *
-     * @return integer
+     * @return int
      */
-    public function getIdMembre()
+    public function getId()
     {
-        return $this->idMembre;
+        return $this->id;
     }
 
-    /**
-     * Set pseudo
-     *
-     * @param string $pseudo
-     *
-     * @return Membre
-     */
-    public function setPseudo($pseudo)
-    {
-        $this->pseudo = $pseudo;
 
-        return $this;
-    }
 
-    /**
-     * Get pseudo
-     *
-     * @return string
-     */
-    public function getPseudo()
-    {
-        return $this->pseudo;
-    }
 
-    /**
-     * Set mdp
-     *
-     * @param string $mdp
-     *
-     * @return Membre
-     */
-    public function setMdp($mdp)
-    {
-        $this->mdp = $mdp;
-
-        return $this;
-    }
-
-    /**
-     * Get mdp
-     *
-     * @return string
-     */
-    public function getMdp()
-    {
-        return $this->mdp;
-    }
 
     /**
      * Set nom
@@ -199,29 +145,7 @@ class Membre
         return $this->prenom;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Membre
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+    
 
     /**
      * Set civilite
@@ -288,7 +212,7 @@ class Membre
     /**
      * Get codePostal
      *
-     * @return integer
+     * @return int
      */
     public function getCodePostal()
     {
@@ -336,10 +260,13 @@ class Membre
     /**
      * Get statut
      *
-     * @return integer
+     * @return int
      */
     public function getStatut()
     {
         return $this->statut;
     }
+
+   
 }
+

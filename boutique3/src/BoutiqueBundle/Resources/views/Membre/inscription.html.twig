@@ -17,13 +17,76 @@
 
 
         <div class="form-group">
-            <label>{{ form_label(membreForm.pseudo) }}</label>
-            {{ form_widget(membreForm.pseudo, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
-            {% if(form_errors(membreForm.pseudo)) %}
-            <span class="alert-danger">{{ form_errors(membreForm.pseudo) }}</span>
+            <label>{{ form_label(membreForm.username) }}</label>
+            {{ form_widget(membreForm.username, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
+            {% if(form_errors(membreForm.username)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.username) }}</span>
             {% endif %}
         </div>
 
+        <div class="form-group">
+            <label>{{ form_label(membreForm.password) }}</label>
+            {{ form_widget(membreForm.password, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre mot de passe' }} ) }}
+            {% if(form_errors(membreForm.password)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.password) }}</span>
+            {% endif %}
+        </div>
+
+                <div class="form-group">
+            <label>{{ form_label(membreForm.prenom) }}</label>
+            {{ form_widget(membreForm.prenom, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre prenom'}} ) }}
+            {% if(form_errors(membreForm.prenom)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.prenom) }}</span>
+            {% endif %}
+        </div>
+
+                <div class="form-group">
+            <label>{{ form_label(membreForm.nom) }}</label>
+            {{ form_widget(membreForm.nom, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre nom'}} ) }}
+            {% if(form_errors(membreForm.nom)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.nom) }}</span>
+            {% endif %}
+        </div>
+
+                <div class="form-group">
+            <label>{{ form_label(membreForm.email) }}</label>
+            {{ form_widget(membreForm.email, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre email'}} ) }}
+            {% if(form_errors(membreForm.email)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.email) }}</span>
+            {% endif %}
+        </div>
+
+                <div class="form-group">
+            <label>{{ form_label(membreForm.civilite) }}</label>
+            {{ form_widget(membreForm.civilite, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre civilité'}} ) }}
+            {% if(form_errors(membreForm.civilite)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.civilite) }}</span>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>{{ form_label(membreForm.ville) }}</label>
+            {{ form_widget(membreForm.ville, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre Ville'}} ) }}
+            {% if(form_errors(membreForm.ville)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.ville) }}</span>
+            {% endif %}
+        </div>
+
+            <div class="form-group">
+            <label>{{ form_label(membreForm.code_postal) }}</label>
+            {{ form_widget(membreForm.code_postal, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre code postal'}} ) }}
+            {% if(form_errors(membreForm.code_postal)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.code_postal) }}</span>
+            {% endif %}
+        </div>
+
+                <div class="form-group">
+            <label>{{ form_label(membreForm.adresse) }}</label>
+            {{ form_widget(membreForm.adresse, {'attr' : { 'class' : 'form-control', 'placeholder' : 'Votre adresse'}} ) }}
+            {% if(form_errors(membreForm.adresse)) %}
+            <span class="alert-danger">{{ form_errors(membreForm.adresse) }}</span>
+            {% endif %}
+        </div>
 
     {{ form_end(membreForm) }}
     {# Ceci permet de générer des jeton CSRF et gère la sécurité #}

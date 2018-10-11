@@ -24,7 +24,7 @@
         {% for pdt in produits %}
         <tr>
             <th>{{ pdt.id_produit }}</th>
-            <th><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}"</th> 
+            <th><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}"/></th> 
             <th>{{ pdt.Titre }}</th>
             <th>{{ pdt.categorie }}</th>
             <th>{{ pdt.reference }}</th>
@@ -33,7 +33,7 @@
             <th>{{ pdt.couleur }}</th>
             <th>{{ pdt.stock }}</th>
             <th><a href="{{ path('update_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-edit"></i></a></th>
-            <th><a href="{{ path('delete_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-dash-alt"></i></a></th>
+            <th><a href="{{ path('delete_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-trash-alt"></i></a></th>
           
         </tr>
         {% endfor %}

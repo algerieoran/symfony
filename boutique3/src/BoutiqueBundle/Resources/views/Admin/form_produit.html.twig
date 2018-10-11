@@ -4,6 +4,12 @@
 
   <h1>{% block title %}{{ title }}{% endblock %}</h1>
 
+  {% if photo is defined %}
+
+  <img src="{{ asset('/photo/' ~ photo)}}" width="150" />
+
+  {% endif %}
+ 
   {{ form(produitForm)}}
 
  

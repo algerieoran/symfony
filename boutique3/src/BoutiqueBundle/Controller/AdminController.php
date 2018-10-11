@@ -12,12 +12,11 @@ use BoutiqueBundle\Entity\Membre;
 use BoutiqueBundle\Entity\Commande;
 use BoutiqueBundle\Entity\DetailsCommande;
 
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType; // input type text
-use Symfony\Component\Form\Extension\Core\Type\TextareaType; // input type textarea
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;// input type choicetype
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;// input type number
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;// input type submit
+use BoutiqueBundle\Form\ProduitType;
+use BoutiqueBundle\Form\MembreType;
+use BoutiqueBundle\Form\CommandeType;
+
+
 
 class AdminController extends Controller
 {
@@ -57,50 +56,35 @@ class AdminController extends Controller
 
         $produit = new Produit; // objet vide
 
-        $formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $produit);
-
-        $formBuilder
-
-            -> add('reference', TextType::class)
-            -> add('categorie', TextType::class)
-            -> add('titre', TextType::class)
-            -> add('description', TextAreaType::class)
-            -> add('couleur', TextType::class)
-            -> add('taille', TextType::class)
-            -> add('public', ChoiceType::class, array(
-
-                'choices' => array(
-                        'Homme' => 'm',
-                        'Femme' => 'f'
-                    )
-                ))
-            -> add('stock', TextType::class)
-            -> add('prix', IntegerType::class)
-            -> add('photo', TextType::class)
-            -> add('ajouter', SubmitType::class);
+        // on récupère notre formulaire en lui passant l'objet qu'il représente
+        $form = $this -> createForm(ProduitType::class, $produit);
 
 
-        // Je récupère le formulaire :
-        $form = $formBuilder -> getForm();
+      
+
+
 
         // Je génère le formulaire (HTML- la partie visuelle)
          $formView = $form -> createView();
 
         // permet de récupérer les données du post 
         $form -> handleRequest($request);
-        if($form -> isSubmitted () && $form -> isValid()){
-            // on verra plus tard la validation
-          
+            if($form -> isSubmitted () && $form -> isValid()){
+                // on verra plus tard la validation
+            
 
-            $em = $this -> getDoctrine () -> getManager();
-            $em -> persist($produit);
-            $em -> flush();
+                $em = $this -> getDoctrine () -> getManager();
+                $em -> persist($produit);
 
-            $session = $request -> getSession();
-            $session -> getSession() -> getFlashBag() -> add('success', 'le produit est ajouté !');
-            return $this -> redirectToRoute('show_produit');
+                $produit -> chargementPhoto();
 
-        }
+                $em -> flush();
+
+                $session = $request -> getSession();
+                $session -> getFlashBag() -> add('success', 'le produit est ajouté !');
+                return $this -> redirectToRoute('show_produit');
+
+            }
 
         $params = array(
             'produitForm' => $formView,
@@ -123,30 +107,11 @@ class AdminController extends Controller
         $repository = $this -> getDoctrine() -> getRepository(Produit::class);
         $produit = $repository -> find($id);
 
-        $formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $produit);
+        $form = $this -> createForm(ProduitType::class, $produit);
 
-        $formBuilder
-
-            -> add('reference', TextType::class)
-            -> add('categorie', TextType::class)
-            -> add('titre', TextType::class)
-            -> add('description', TextAreaType::class)
-            -> add('couleur', TextType::class)
-            -> add('taille', TextType::class)
-            -> add('public', ChoiceType::class, array(
-
-                'choices' => array(
-                        'Homme' => 'm',
-                        'Femme' => 'f'
-                    )
-                ))
-            -> add('stock', TextType::class)
-            -> add('prix', IntegerType::class)
-            -> add('photo', TextType::class)
-            -> add('Modifier', SubmitType::class);
-
-        $form = $formBuilder -> getForm();
+       
         $formView = $form -> createView();
+
         $form -> handleRequest($request);
 
         if($form -> isSubmitted () && $form -> isValid()){
@@ -155,6 +120,9 @@ class AdminController extends Controller
 
             $em = $this -> getDoctrine () -> getManager();
             $em -> persist($produit);
+
+            $produit -> chargementPhoto();
+
             $em -> flush();
 
            
@@ -164,9 +132,13 @@ class AdminController extends Controller
 
         }
 
+        
+
+
         $params = array(
             'produitForm' => $formView,
-            'title' => 'Modifier le produit n°' . $id
+            'title' => 'Modifier le produit n°' . $id,
+            'photo' => $produit -> getPhoto()
         );
 
 
@@ -175,7 +147,7 @@ class AdminController extends Controller
     }
 
 
-    // yakine
+// yakine
 //     <?php
 
 // public function produitUpdateAction($id, Request $request){
@@ -257,6 +229,209 @@ class AdminController extends Controller
 
         return $this -> redirectToRoute('show_produit');
     }
+
+
+    /**
+    * @Route("/admin/membre/show", name="show_membre")
+    */
+    public function membreShowAction(){
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $membres= $repository -> findAll();
+
+        $params = array (
+            'membres' => $membres,
+            'title'  => 'Gestion des membres'
+        );
+
+        return $this -> render('@Boutique/Admin/show_membre.html.twig', $params);
+    }
+
+    /**
+     * @Route("/admin/membre/add", name="add_membre") 
+    */
+    public function membreAddAction(Request $request) {
+
+        $membre = new Membre; 
+
+        // on récupère notre formulaire en lui passant l'objet qu'il représente
+        $form = $this -> createForm(MembreType::class, $membre);
+
+
+        // Je génère le formulaire (HTML- la partie visuelle)
+         $formView = $form -> createView();
+
+        // permet de récupérer les données du post 
+        $form -> handleRequest($request);
+            if($form -> isSubmitted () && $form -> isValid()){
+                // on verra plus tard la validation
+            
+
+                $em = $this -> getDoctrine () -> getManager();
+                $em -> persist($membre);
+
+                // $membre -> chargementPhoto();
+
+                $em -> flush();
+
+                $session = $request -> getSession();
+                $session -> getFlashBag() -> add('success', 'le nouveau membre est enregistré !');
+                return $this -> redirectToRoute('show_membre');
+
+            }
+
+        $params = array(
+            'membreForm' => $formView,
+            'title'  => 'Ajouter un nouveau membre'
+        );
+
+        return $this -> render('@Boutique/Admin/form_membre.html.twig', $params);
+    
+    }
+
+    /**
+     * @Route("/admin/membre/update/{id}", name="update_membre") 
+    */
+    public function membreUpdateAction($id, Request $request) {
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $membre = $repository -> find($id);
+
+        $form = $this -> createForm(MembreType::class, $membre);
+
+       
+        $formView = $form -> createView();
+
+        $form -> handleRequest($request);
+
+        if($form -> isSubmitted () && $form -> isValid()){
+            // on verra plus tard la validation
+          
+
+            $em = $this -> getDoctrine () -> getManager();
+            $em -> persist($membre);
+
+            // $membre -> chargementPhoto();
+
+            $em -> flush();
+
+           
+
+            $request -> getSession() -> getFlashBag() -> add('success', 'le membre a bien été modifier!');
+            return $this -> redirectToRoute('show_membre');
+
+        }
+
+        $params = array(
+            'membreForm' => $formView,
+            'title' => 'Modifier le membre n°' . $id,
+            // 'photo' => $membre -> getPhoto()
+        );
+
+
+    
+        return $this -> render('@Boutique/Admin/form_membre.html.twig', $params);
+    }
+
+
+
+    /**
+     * @Route("/admin/membre/delete/{id}", name="delete_membre") 
+     * 
+     */
+
+    public function membreDeleteAction($id, Request $request) {
+        // on récuper le membre via le manager .... parce qu'on en avoir besoin pour la suppression 
+        $em = $this -> getDoctrine() -> getManager();
+        $membre = $em -> find(Membre::class, $id);
+
+        $em -> remove($membre);
+        $em -> flush();
+
+
+        $session = $request -> getSession();
+        $session-> getFlashBag() -> add("OK, le membre id: " . $id . " a été supprimé !"); 
+        
+
+      
+
+        return $this -> redirectToRoute('show_membre');
+    }
+
+    /**
+     * @Route("admin/membre/profil/{id}", name="profil_membre")
+     */
+    public function profilMembreAction($id, Request $request)
+    {
+        $passwordEncoder = $this -> get('security.password_encoder');
+
+       
+
+        
+
+        $membre = new Membre;
+        $membre -> setStatut(0);
+        $membre -> setRole('ROLE_USER');
+        $form = $this -> createForm(MembreType::class, $membre);
+        
+
+            // Je génère le formulaire (HTML - partie visuel)
+            $formView = $form -> createView();
+
+            // permet de récupérer les données du poste
+            $form -> handleRequest($request);
+            if ($form -> isSubmitted() && $form -> isValid() ){
+                // On verra plus tard la validation
+
+
+                $salt = substr(md5(time()), 0, 23);
+                // time() : 1545223656
+                // time() crypté en MD5 : 52154dsqf6s5564g46g6f5s65s565g654
+                // ON conserve du 0 au 23 ème caractères : 52154dsqf6s5564g46g6f5s65
+
+                $password = $passwordEncoder -> encodePassword($membre, $salt);
+                $membre -> setPassword($password) -> setSalt($salt);
+                // On mets dans l'objet $membre le nouveau password (crypté) et le salt (génèré aléatoirement) afin que ces deux valeurs soient enregistrée en BDD.
+                
+                $em = $this -> getDoctrine() -> getManager();
+                $em -> persist($membre);
+                $em -> flush();
+
+                $request -> getSession() -> getFlashBag() -> add('success', 'la fiche de l\' utilisateur  n° :' . $id);
+                // return $this -> redirectToRoute('connexion');
+            }
+
+
+
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $membre= $repository -> find($id);
+
+        // $query = $em -> createQueryBuilder(); // Objet QueryBuilder
+
+        // $query 
+        // -> select ('m')
+        // -> from (membre::class,'m')
+        // -> where ('m.id_membre= :id_membre')
+        // -> setParameter ('id_membre', $produit -> getId_membre());
+       
+        // $suggestions = $query -> getQuery() -> getResult();
+
+
+
+        $params = array (    
+            'title' => 'Le Profile des membres',
+            'membreForm' => $formView,
+            'membre' => $membre
+            // 'suggestions' => $suggestions
+           
+        );
+
+        var_dump($membre);
+
+        return $this->render('@Boutique/Admin/profil_membre.html.twig' , $params);
+    }
+
+    
+
+
 
 
 

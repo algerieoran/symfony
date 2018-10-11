@@ -1,0 +1,95 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+{# {{ form(membreForm)}} #}
+
+
+<table border="1" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id membre</th>
+            <th>Pseudo</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>email</th>
+            <th>Civilite</th>
+            <th>Ville</th>
+            <th>Code postal</th>
+            <th>Statut</th>
+            <th>Adresse</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Salt</th>
+            <th colspan="2">Actions</th>
+            
+        </tr>
+    </thead>
+    </tbody>
+        {% for mbr in membre %}
+        <tr>
+            <th>{{ mbr.id_membre }}</th>
+            {# <th><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}"/></th>  #}
+            <th>{{ mbr.username }}</th>
+            <th>{{ mbr.nom }}</th>
+            <th>{{ mbr.prenom }}</th>
+            <th>{{ mbr.email }}</th>
+            <th>{{ mbr.civilite }}</th>
+            <th>{{ mbr.ville }}</th>
+            <th>{{ mbr.codePostal }}</th>
+            <th>{{ mbr.statut }}</th>
+            <th>{{ mbr.adresse }}</th>
+            <th>{{ mbr.role }}</th>
+            <th>{{ mbr.salt }}</th>
+            <th><a href="{{ path('update_membre', { 'id' : mbr.id_membre } )}}"><i class="far fa-edit"></i></a></th>
+            <th><a href="{{ path('delete_membre', { 'id' : mbr.id_membre } )}}"><i class="far fa-trash-alt"></i></a></th>
+          
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+{# <table border="1" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Id du produit</th>
+            <th>photo</th>
+            <th>Titre</th>
+            <th>Categorie</th>
+            <th>Reference</th>
+            <th>Taille</th>
+            <th>Prix</th>
+            <th>couleur</th>
+            <th>stock</th>
+            <th colspan="2">Actions</th>
+            
+        </tr>
+    </thead>
+    </tbody>
+        {% for pdt in produits %}
+        <tr>
+            <th>{{ pdt.id_produit }}</th>
+            <th><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}"/></th> 
+            <th>{{ pdt.Titre }}</th>
+            <th>{{ pdt.categorie }}</th>
+            <th>{{ pdt.reference }}</th>
+            <th>{{ pdt.taille }}</th>
+            <th>{{ pdt.prix }}</th>
+            <th>{{ pdt.couleur }}</th>
+            <th>{{ pdt.stock }}</th>
+            <th><a href="{{ path('update_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-edit"></i></a></th>
+            <th><a href="{{ path('delete_produit', { 'id' : pdt.id_produit } )}}"><i class="far fa-trash-alt"></i></a></th>
+          
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+    
+     #}
+
+
+{% endblock %}

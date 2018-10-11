@@ -3,6 +3,7 @@
 namespace BoutiqueBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Produit
@@ -76,6 +77,9 @@ class Produit
      * @ORM\Column(name="photo", type="string", length=250, nullable=false)
      */
     private $photo;
+
+    // pas d'annotation, car on ne souhaite pas que Doctrine mappe cette propriété
+    private $file;
 
     /**
      * @var float
@@ -326,8 +330,7 @@ class Produit
      *
      * @return Produit
      */
-    public function setStock($stock)
-    {
+    public function setStock($stock){
         $this->stock = $stock;
 
         return $this;
@@ -338,8 +341,59 @@ class Produit
      *
      * @return integer
      */
-    public function getStock()
-    {
+    public function getStock(){
         return $this->stock;
     }
+
+
+    // Getter et setter de $file
+    public function setFile(UploadedFile $file = NULL) {
+        // la classe UploadedFile de de symfony nous permet de gérer tous les fichiers uploadés.
+        $this -> file = $file;
+        return $this;
+
+    }
+
+    public function getFile(){
+
+        return $this -> file;
+    }
+
+
+    //Fonction pour charger un fichier
+    public function chargementPhoto(){
+
+        if($this -> file){
+
+            $nom_original = $this -> file -> getClientOriginalName();
+            //Cette méthode me retourne le nom original de la photo
+            //équivalent à : $_FILLES['photo']['name']
+
+            $new_nom_photo = $this -> renameFile($nom_original);
+            // Me retourne lr nom du fichier modifié
+
+            $this -> photo = $new_nom_photo;
+            //pour enregistrer dans la BDD, le nouveau nom de la photo...
+
+            $this -> file -> move($this -> photoDir(), $new_nom_photo);
+            // move() permet de déplacer la photo (physiquement, c'est à dire les octets qui compose le fichier photo) vers son emplacement définitif. L'arguments : 1/ Le dossier de destination, 2/ le nom de la photo.
+        }
+
+    }
+
+    //Fonction pour renommer une photo
+    public function renameFile($nom_original){
+        // $nom_original : tshirt.jpg
+        return 'photo_'. time().'_' . rand(1, 9999) . '_' . $nom_original;
+        //photo_1524353723_534_tshirt.jpg
+
+    }
+
+        //Fonction pour retourner le chemin du dossier photo
+    public function photoDir(){
+        return __DIR__. '/../../../web/photo';
+    }
+
+
+
 }
